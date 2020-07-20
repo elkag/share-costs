@@ -35,6 +35,7 @@ const RegisterPage = (props) => {
     /**
      * Sends requested data to BE
      * TODO: Auto login user
+     * -
      */
     const register = async () => {
         const registrationSuccess = await registerApi.register(
