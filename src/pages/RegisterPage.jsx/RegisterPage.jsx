@@ -3,20 +3,14 @@ import React from 'react';
 import InputField from '../../components/Form/InputField/InputField';
 import FormLayout from '../../components/Form/FormLayout/FormLayout';
 import SubmitButton from '../../components/Form/SubmitButton/SubmitButton';
-// Config
-import { setSessionCookie } from '../../config/session';
-import { HOME_PAGE } from '../../config/routes';
+// Configuration
+import { LOGIN_PAGE } from '../../config/routes';
 // API
 import { registerApi } from '../../api/shareCostsBackend/registerApi';
-// Context
-import UserSessionContext from '../../contexts/userContext';
 //styles
 import styles from './register-page.module.css';
 
 const RegisterPage = (props) => {
-
-    // User's session
-    const {setUser} = React.useContext(UserSessionContext);
 
     // User's data
     const [email, setEmail] = React.useState("");
@@ -38,12 +32,12 @@ const RegisterPage = (props) => {
             default:
         }
     }
-
-    // Sends requested data to BE
-    // Log user if sussess
-    // Save user's session in a cookie 
+    /**
+     * Sends requested data to BE
+     * TODO: Auto login user
+     */
     const register = async () => {
-        const registrationDetails = await registerApi.register(
+        const registrationSuccess = await registerApi.register(
             {
                 email,
                 firstName,
@@ -52,14 +46,14 @@ const RegisterPage = (props) => {
                 username
             }
         );
-        if(registrationDetails.error) {
-            setError(registrationDetails.message)
+
+        if(registrationSuccess) {
+            setError("Server Error")
         } else {
-            setUser( registrationDetails);
-            setSessionCookie(registrationDetails);
-            props.history.push(HOME_PAGE);
+            props.history.push(LOGIN_PAGE);
         }
-      }
+        
+    }
 
     // submit data
     const onSubmit = async (event) => {

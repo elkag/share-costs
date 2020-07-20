@@ -16,13 +16,16 @@ import styles from './login-page.module.css';
 const LoginPage = (props) => {
   
     // User session
-    const {setUser} = React.useContext(UserSessionContext);
+    const { setUser } = React.useContext(UserSessionContext);
 
     // Credentials data
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [error, setError] = React.useState("");
 
+    // Sends requested data to BE
+    // Log user if sussess
+    // Saves user's session in a cookie and context
     const logIn = async () => {
         const sesionDetails = await loginApi.logIn(username, password);
         if(sesionDetails.error) {
@@ -34,7 +37,9 @@ const LoginPage = (props) => {
         }
       }
 
-    // submit credentials
+   /**
+    * @param {any} event 
+    */
     const onSubmit = async (event) => {
         event.preventDefault();
         if( checkCredentials() ) {
