@@ -1,0 +1,23 @@
+.header {
+    top: 0;
+    background-color: #234465;
+    color: white;
+    overflow: hidden;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    display: flex;
+}
+
+.header-right {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+.logo{
+    
+    margin: 20px;
+}
