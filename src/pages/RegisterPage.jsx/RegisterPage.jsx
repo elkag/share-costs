@@ -4,18 +4,25 @@ import InputField from '../../components/Form/InputField/InputField';
 import FormLayout from '../../components/Form/FormLayout/FormLayout';
 import SubmitButton from '../../components/Form/SubmitButton/SubmitButton';
 // Configuration
-import { LOGIN_PAGE } from '../../config/routes';
+import { LOGIN_PAGE, HOME_PAGE } from '../../config/routes';
 // API
 import { registerApi } from '../../api/shareCostsBackend/registerApi';
 //styles
 import styles from './register-page.module.css';
+import { loginApi } from '../../api/shareCostsBackend/loginApi';
+import { setSessionCookie, deleteSessionCoockie } from '../../config/session';
+import { UserSessionContext } from '../../contexts/userContext';
 
 const RegisterPage = (props) => {
+
+    // Session context
+    const [session, setSession] = React.useContext(UserSessionContext);
 
     // User's data
     const [email, setEmail] = React.useState("");
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [password2, setPassword2] = React.useState("");
     const [firstName, setFirstName] = React.useState("");
     const [lastName, setLastName] = React.useState("");
     const [error, setError] = React.useState("");
@@ -27,6 +34,7 @@ const RegisterPage = (props) => {
             case 'email': setEmail(e.target.value); break;
             case 'username': setUsername(e.target.value); break;
             case 'password': setPassword(e.target.value); break;
+            case 'password2': setPassword2(e.target.value); break;
             case 'fname': setFirstName(e.target.value); break;
             case 'lname': setLastName(e.target.value); break;
             default:
@@ -35,7 +43,6 @@ const RegisterPage = (props) => {
     /**
      * Sends requested data to BE
      * TODO: Auto login user
-     * -
      */
     const register = async () => {
         const registrationSuccess = await registerApi.register(
@@ -48,13 +55,25 @@ const RegisterPage = (props) => {
             }
         );
 
-        if(registrationSuccess) {
+        if(!registrationSuccess) {
             setError("Server Error")
         } else {
-            props.history.push(LOGIN_PAGE);
+            deleteSessionCoockie("session")
+            await logIn(username, password)
         }
         
     }
+
+    const logIn = async (loginUsername, loginPassword) => {
+        const sesionDetails = await loginApi.logIn(loginUsername, loginPassword);
+        if(sesionDetails.error) {
+            setError(sesionDetails.message)
+        } else {
+            setSession( {user: sesionDetails.user} );
+            setSessionCookie(sesionDetails);
+            props.history.push(HOME_PAGE);
+        }
+      }
 
     // submit data
     const onSubmit = async (event) => {
@@ -91,6 +110,10 @@ const RegisterPage = (props) => {
                 return false;
             }
           
+            if(password !== password2) {
+                setError("Paswword does not match..");
+                return false;
+            }
             return true;
     }
 
@@ -134,14 +157,14 @@ const RegisterPage = (props) => {
                 placeholder="Your password.." 
                 onChange={onChangeValue} />
             <InputField 
-                id="rwpassword" 
-                type="text" 
-                inputName="rwpassword" 
+                id="password2" 
+                type="password" 
+                inputName="password2" 
                 title="Retype password" 
                 placeholder="Type your password again ..." 
                 onChange={onChangeValue} />
 
-            <SubmitButton title="Login" onSubmit={onSubmit} />
+            <SubmitButton title="Submit" onSubmit={onSubmit} />
         </FormLayout>
     )
 }

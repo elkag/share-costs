@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useState, createContext } from 'react';
+import { getSessionCookie } from '../config/session';
 
-export const USER_SESSION_DEFAULT_VALUE = {
-    session: {},
-    setUser: () => {
-    },
-};
+export const UserSessionContext = createContext();
 
-const UserSessionContext = React.createContext( USER_SESSION_DEFAULT_VALUE);
+export const UserSessionProvider = (props) => {
 
-export default UserSessionContext;
+    const [session, setSession] = useState(
+    {
+        user: getSessionCookie("session").user,
+    });
+    
+    return(
+        <UserSessionContext.Provider value={[session, setSession]}>
+            {props.children}
+        </UserSessionContext.Provider>
+    );
+}

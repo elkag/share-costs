@@ -1,12 +1,12 @@
 import React from 'react';
-import UserSessionContext from '../../contexts/userContext';
+import { UserSessionContext } from '../../contexts/userContext';
 
 const HomePage = () => {
 
-    const userSessionContext = React.useContext(UserSessionContext);
+    const [session] = React.useContext(UserSessionContext);
 
     return (
-            (<div>{userSessionContext.session && userSessionContext.session.user ? "User: " + userSessionContext.session.user.username : "Unauthorized"}</div>)
+            (<div>{session.user && session.user.id ? "User: " + session.user.username : "Unauthorized"}</div>)
     )
 }
 

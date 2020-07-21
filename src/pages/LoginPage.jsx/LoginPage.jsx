@@ -1,8 +1,8 @@
 import React from 'react';
 // config
-import { setSessionCookie } from '../../config/session';
+import { setSessionCookie, getSessionCookie } from '../../config/session';
 // context
-import UserSessionContext from '../../contexts/userContext';
+import { UserSessionContext } from '../../contexts/userContext';
 // API
 import { loginApi } from '../../api/shareCostsBackend/loginApi';
 // components
@@ -16,7 +16,7 @@ import styles from './login-page.module.css';
 const LoginPage = (props) => {
   
     // User session
-    const { setUser } = React.useContext(UserSessionContext);
+    const [setSession] = React.useContext(UserSessionContext);
 
     // Credentials data
     const [username, setUsername] = React.useState("");
@@ -31,8 +31,9 @@ const LoginPage = (props) => {
         if(sesionDetails.error) {
             setError(sesionDetails.message)
         } else {
-          setUser( sesionDetails);
+          setSession( {user: sesionDetails.user} );
           setSessionCookie(sesionDetails);
+          console.log(getSessionCookie("session"));
           props.history.push(HOME_PAGE);
         }
       }

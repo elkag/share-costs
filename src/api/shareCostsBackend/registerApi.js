@@ -26,7 +26,7 @@ export const registerApi = {
                     })
                 }
             );
-        const isSuccess = promise.ok() ? true : false;
+        const isSuccess = promise.ok ? true : false;
         return isSuccess;         
   }
 }

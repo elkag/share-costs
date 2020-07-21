@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import LinkButton from '../LinkButton/LinkButton';
 
 // Config
-import UserSessionContext from '../../contexts/userContext';
+import { UserSessionContext } from '../../contexts/userContext';
 import { LOGIN_PAGE, REGISER_PAGE, HOME_PAGE } from '../../config/routes';
 import { deleteSessionCoockie } from '../../config/session';
 
@@ -13,14 +13,12 @@ import styles from './header.module.css';
 
 const Header = () => {
 
-    const userSessionContext = React.useContext(UserSessionContext);
-   
-    const { setUser } = React.useContext(UserSessionContext);
+    const [session, setSession] = React.useContext(UserSessionContext);
    
     const logOut = (event) => {
         event.preventDefault();
         deleteSessionCoockie("session");
-        setUser({});
+        setSession({});
     }
 
     return (
@@ -28,7 +26,7 @@ const Header = () => {
             <LinkButton href={HOME_PAGE} type="header" title="Title"/>
             <div className={styles["header-right"]}>
                 {
-                   userSessionContext.session && userSessionContext.session.user ? ( 
+                   session && session.user && session.user !== {} ? ( 
                             <LinkButton href={HOME_PAGE} type="header" title="Logout" onClick={ logOut} />
                         ) : (
                             <Fragment>
@@ -40,7 +38,7 @@ const Header = () => {
                     
                 }
             </div>
-            <div>{userSessionContext.session && userSessionContext.session.user ? userSessionContext.session.user.email : ""}</div>
+            <div>{session && session.user ? session.user.email : ""}</div>
         </div>
     );
 }
