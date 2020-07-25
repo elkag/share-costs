@@ -1,0 +1,14 @@
+.error {
+    color: red;
+    font-size: small; 
+ }
+
+ .header {
+    text-align: justify;
+    color: #234465;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    height: 29px;
+    width: 100%;
+  }

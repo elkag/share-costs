@@ -30,9 +30,9 @@ const Header = () => {
                             <LinkButton href={HOME_PAGE} type="header" title="Logout" onClick={ logOut} />
                         ) : (
                             <Fragment>
-                                <LinkButton href={LOGIN_PAGE} type="header" title="Login" />
+                                <LinkButton href={LOGIN_PAGE} type="header" title="Sign In" />
                                 <span> | </span>
-                                <LinkButton href={REGISER_PAGE} type="header" title="Register" />
+                                <LinkButton href={REGISER_PAGE} type="header" title="Sign Up" />
                             </Fragment>
                     )   
                     

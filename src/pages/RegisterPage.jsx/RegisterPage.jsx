@@ -1,50 +1,47 @@
 import React from 'react';
-// Components
-import InputField from '../../components/Form/InputField/InputField';
-import FormLayout from '../../components/Form/FormLayout/FormLayout';
-import SubmitButton from '../../components/Form/SubmitButton/SubmitButton';
 // Configuration
-import { LOGIN_PAGE, HOME_PAGE } from '../../config/routes';
-// API
-import { registerApi } from '../../api/shareCostsBackend/registerApi';
-//styles
-import styles from './register-page.module.css';
-import { loginApi } from '../../api/shareCostsBackend/loginApi';
+import { HOME_PAGE } from '../../config/routes';
 import { setSessionCookie, deleteSessionCoockie } from '../../config/session';
 import { UserSessionContext } from '../../contexts/userContext';
+
+// API
+import { registerApi } from '../../api/shareCostsBackend/registerApi';
+import { loginApi } from '../../api/shareCostsBackend/loginApi';
+
+// Components
+import RegisterForm from '../../components/Forms/RegisterForm/RegisterForm';
+
 
 const RegisterPage = (props) => {
 
     // Session context
     const [session, setSession] = React.useContext(UserSessionContext);
 
-    // User's data
-    const [email, setEmail] = React.useState("");
-    const [username, setUsername] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    const [password2, setPassword2] = React.useState("");
-    const [firstName, setFirstName] = React.useState("");
-    const [lastName, setLastName] = React.useState("");
-    const [error, setError] = React.useState("");
+     // if there is some error from the server side
+    const [serverError, setServerError] = React.useState( true );
 
-    // set user details
-    const onChangeValue = (e) => {
-        e.preventDefault();
-        switch(e.target.id) {
-            case 'email': setEmail(e.target.value); break;
-            case 'username': setUsername(e.target.value); break;
-            case 'password': setPassword(e.target.value); break;
-            case 'password2': setPassword2(e.target.value); break;
-            case 'fname': setFirstName(e.target.value); break;
-            case 'lname': setLastName(e.target.value); break;
-            default:
+    const logIn = async (loginUsername, loginPassword) => {
+        const sesionDetails = await loginApi.logIn(loginUsername, loginPassword);
+        if(sesionDetails.error) {
+            setServerError(sesionDetails.message)
+        } else {
+            setSession( {user: sesionDetails.user} );
+            setSessionCookie(sesionDetails);
+            props.history.push(HOME_PAGE);
         }
-    }
+      }
+
     /**
      * Sends requested data to BE
      * TODO: Auto login user
      */
-    const register = async () => {
+    const onSubmit = async (
+        email,
+        firstName,
+        lastName,
+        password,
+        username
+    ) => {
         const registrationSuccess = await registerApi.register(
             {
                 email,
@@ -56,116 +53,15 @@ const RegisterPage = (props) => {
         );
 
         if(!registrationSuccess) {
-            setError("Server Error")
+            setServerError("Server Error")
         } else {
             deleteSessionCoockie("session")
             await logIn(username, password)
         }
-        
-    }
-
-    const logIn = async (loginUsername, loginPassword) => {
-        const sesionDetails = await loginApi.logIn(loginUsername, loginPassword);
-        if(sesionDetails.error) {
-            setError(sesionDetails.message)
-        } else {
-            setSession( {user: sesionDetails.user} );
-            setSessionCookie(sesionDetails);
-            props.history.push(HOME_PAGE);
-        }
-      }
-
-    // submit data
-    const onSubmit = async (event) => {
-        event.preventDefault();
-        const checkResult = checkRegistrationData();
-        if( checkResult ) {
-            register();
-        }
     };
 
-    const checkRegistrationData = () => {
-            if( !username || username === "") {
-                setError("Username can not be empty..");
-                return false;
-            }
-
-            if( !password || password === "") {
-                setError("Password can not be empty..");
-                return false;
-            }
-
-            if( !email || email === "") {
-                setError("Email can not be empty..");
-                return false;
-            }
-
-            if( !firstName || firstName === "") {
-                setError("'First name' can not be empty..");
-                return false;
-            }
-
-            if( !lastName || lastName === "") {
-                setError("'Last name' can not be empty..");
-                return false;
-            }
-          
-            if(password !== password2) {
-                setError("Paswword does not match..");
-                return false;
-            }
-            return true;
-    }
-
-
     return (
-        <FormLayout>
-            <span className={styles.error}>{error}</span>
-            <InputField 
-                id="email"
-                type="text" 
-                inputName="email" 
-                title="Email" 
-                placeholder="Your email .."
-                onChange={onChangeValue} />
-            <InputField 
-                id="fname" 
-                type="text" 
-                inputName="fname" 
-                title="First name" 
-                placeholder="Your first name.." 
-                onChange={onChangeValue} />
-            <InputField 
-                id="lname" 
-                type="text" 
-                inputName="lname" 
-                title="Last name" 
-                placeholder="Your last name.." 
-                onChange={onChangeValue} />
-            <InputField 
-                id="username" 
-                type="text" 
-                inputName="username" 
-                title="Username" 
-                placeholder="Your username.." 
-                onChange={onChangeValue} />
-            <InputField 
-                id="password" 
-                type="password" 
-                inputName="password" 
-                title="Password" 
-                placeholder="Your password.." 
-                onChange={onChangeValue} />
-            <InputField 
-                id="password2" 
-                type="password" 
-                inputName="password2" 
-                title="Retype password" 
-                placeholder="Type your password again ..." 
-                onChange={onChangeValue} />
-
-            <SubmitButton title="Submit" onSubmit={onSubmit} />
-        </FormLayout>
+        <RegisterForm error={serverError} onSubmit={onSubmit} />
     )
 }
 
