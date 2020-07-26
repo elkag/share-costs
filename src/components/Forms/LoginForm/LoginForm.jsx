@@ -1,18 +1,27 @@
 import React from 'react';
 
-// components
 //styles
 import styles from './login-form.module.css';
 import FormLayout from '../FormLayout/FormLayout';
 import TextInput from '../InputFields/TextInput';
-import SubmitButton from '../SubmitButton/SubmitButton';
+import clsx from 'clsx';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from '@material-ui/core/Button';
+import useSubmitButtonStyles from '../submitButtonStyles';
 
-const LoginForm = ({onSubmit}) => {
+
+const LoginForm = ({onSubmit, isLoading, error}) => {
+
+    const classes = useSubmitButtonStyles();
+    const success = React.useState(!isLoading);
+
+    const buttonClassname = clsx({
+        [classes.buttonSuccess]: success,
+      });
 
     // Credentials data
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const [error, setError] = React.useState("");
 
     // input fields initialization state
     const [usernameFieldInitialized, setUsernameFieldInitialized] = React.useState( false );
@@ -42,6 +51,7 @@ const LoginForm = ({onSubmit}) => {
 
     const onSubmitLogin = () => {
         if(checkData()) {
+            
             onSubmit(username, password)
         }
     }
@@ -59,6 +69,7 @@ const LoginForm = ({onSubmit}) => {
             <FormLayout>
                 <TextInput 
                   id="username" 
+                  disabled={isLoading}
                   type="text"
                   value={username}
                   inputName="username" 
@@ -67,17 +78,26 @@ const LoginForm = ({onSubmit}) => {
                   onChange={ onChangeUsername } />
                 <TextInput 
                   id="password" 
+                  disabled={isLoading}
                   type="password"
                   value={password}
                   inputName="password" 
                   title="Password" 
                   placeholder="Your password.."
                   onChange={ onChangePassword } />
-                <span className={styles.error}>{error}</span>
-                <SubmitButton 
-                  title="Login" 
-                  disabled={!checkData()} 
-                  onSubmit={onSubmitLogin} />
+                <div className={styles.error}>{error}</div>
+                <div className={styles["button-wrapper"]} >
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={buttonClassname}
+                        disabled={isLoading}
+                        onClick={onSubmitLogin}
+                        >
+                        Login
+                        </Button>
+                        {isLoading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                </div>
             </FormLayout>
     )
 }

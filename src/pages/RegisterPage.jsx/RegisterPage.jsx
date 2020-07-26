@@ -16,14 +16,15 @@ const RegisterPage = (props) => {
 
     // Session context
     const [session, setSession] = React.useContext(UserSessionContext);
+    const [loading, setLoading] = React.useState(false);
 
      // if there is some error from the server side
-    const [serverError, setServerError] = React.useState( true );
+    const [error, setError] = React.useState( true );
 
     const logIn = async (loginUsername, loginPassword) => {
         const sesionDetails = await loginApi.logIn(loginUsername, loginPassword);
         if(sesionDetails.error) {
-            setServerError(sesionDetails.message)
+            setError(sesionDetails.message)
         } else {
             setSession( {user: sesionDetails.user} );
             setSessionCookie(sesionDetails);
@@ -33,7 +34,6 @@ const RegisterPage = (props) => {
 
     /**
      * Sends requested data to BE
-     * TODO: Auto login user
      */
     const onSubmit = async (
         email,
@@ -42,7 +42,8 @@ const RegisterPage = (props) => {
         password,
         username
     ) => {
-        const registrationSuccess = await registerApi.register(
+        setLoading(true);
+        const responce = await registerApi.register(
             {
                 email,
                 firstName,
@@ -52,8 +53,9 @@ const RegisterPage = (props) => {
             }
         );
 
-        if(!registrationSuccess) {
-            setServerError("Server Error")
+        setLoading(false);
+        if(responce.error) {
+            setError(responce.message)
         } else {
             deleteSessionCoockie("session")
             await logIn(username, password)
@@ -61,7 +63,7 @@ const RegisterPage = (props) => {
     };
 
     return (
-        <RegisterForm error={serverError} onSubmit={onSubmit} />
+        <RegisterForm error={error} isLoading={loading} onSubmit={onSubmit} />
     )
 }
 

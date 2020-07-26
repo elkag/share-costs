@@ -1,24 +1,26 @@
 import React from 'react';
 // Components
 import SimpleInput from './SimpleInput';
+import { checkUsernameApi } from '../../../api/shareCostsBackend/checkUsernameApi';
 
-const EmailInputField = ({  id, value, onChange, disabled, onBlur, inputName, title, placeholder }) => {
+const UsernameInput = ({  id, value, onChange, disabled, onBlur, error, inputName, title, placeholder }) => {
 
     const [errorMsg, setErrorMsg] = React.useState('');
-
     /**
-     * Check if email adrress is correct
+     * Username validation
      * 
-     * @param {String} aValue //input field value
+     * @param {String} aValue //username value
      */
     const onChangeInput = (aValue) => {
-
-        if(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(aValue)) {
-            setErrorMsg('');
-            return onChange(aValue, false, '');
-        } 
-        setErrorMsg('Incorrect email');
-        return onChange(aValue, true, 'Incorrect email');     
+        setErrorMsg('');
+        let error = '';
+        if(aValue === '') {
+            
+            error = `* ${title} is required`;
+        }
+        
+        setErrorMsg(error);
+        return onChange(aValue, error !== '', error);        
     }
 
     return (
@@ -32,9 +34,9 @@ const EmailInputField = ({  id, value, onChange, disabled, onBlur, inputName, ti
                 placeholder={placeholder} 
                 onChange={onChangeInput}
                 onBlur={onBlur}
-                error={errorMsg}
+                error={errorMsg || error}
                 required={true}/>
     );
 }
 
-export default EmailInputField;
+export default UsernameInput;

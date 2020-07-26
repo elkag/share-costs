@@ -1,10 +1,11 @@
 import React from 'react';
 //Styles
-import styles from './input-field.module.css';
+import styles from './styles/input-field.module.css';
 
 const SimpleInput = ({
                         id, 
                         type, 
+                        disabled,
                         onChange,
                         onBlur,
                         inputName,
@@ -33,7 +34,8 @@ const SimpleInput = ({
                        name={inputName} 
                        placeholder={placeholder} 
                        onChange={onChangeInput}
-                       onBlur={onBlur} />
+                       onBlur={onBlur}
+                       disabled={disabled} />
            </div>
            
        </div> )

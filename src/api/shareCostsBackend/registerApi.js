@@ -1,4 +1,4 @@
-import { REGISTER_SERVICE_URL } from "./config";
+import { REGISTER_SERVICE_URL } from "./config/config";
 
 export const registerApi = {
     register: async (
@@ -10,7 +10,7 @@ export const registerApi = {
             username
         }
     ) => {
-            const promise = await fetch(REGISTER_SERVICE_URL,
+            return await fetch(REGISTER_SERVICE_URL,
                 {
                     method: 'POST',
                     headers: {
@@ -25,8 +25,27 @@ export const registerApi = {
                         username,
                     })
                 }
-            );
-        const isSuccess = promise.ok ? true : false;
-        return isSuccess;         
+            )
+            .then( response => {
+                    if(response.ok) {
+                        return {error: false};
+                    } 
+                    throw response;
+                }
+            ).catch( error => {
+                console.log("Error occurred");
+                if (error instanceof Error) {
+                    // {message: "..."}
+                    return { error: true, message: error.message }
+                }
+                return error.json().then((responseJson) => {
+                    console.log(responseJson);
+                    console.log("message = " + responseJson.message);
+                    return responseJson;
+                }
+            )
+        }).then(responce => {
+            return responce;
+        }) 
   }
 }

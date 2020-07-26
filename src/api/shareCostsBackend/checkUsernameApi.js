@@ -1,16 +1,27 @@
-import { LOGIN_SERVICE_URL } from './config/config';
+import { CHECK_USERNAME_SERVICE_URL } from './config/config';
 
-export const loginApi = {
-    logIn: async (username, password) => {
+/**
+ * Sends request to BE:
+ * request:
+ *          { username: String }
+ * response:
+ *            { 
+ *              username: String, 
+ *              error: Boolean, 
+ *              message: String 
+ *            }
+ */
+export const checkUsernameApi = {
+    checkUsername: async (username) => {
 
-        return await fetch(LOGIN_SERVICE_URL,
+        return await fetch(CHECK_USERNAME_SERVICE_URL,
             {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 // body data type must match "Content-Type" header
-                body: JSON.stringify({username, password})
+                body: JSON.stringify({username})
             }
             ).then( response => {
                     if(response.ok) {

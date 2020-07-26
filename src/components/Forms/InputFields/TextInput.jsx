@@ -4,6 +4,7 @@ import SimpleInput from './SimpleInput';
 
 const TextInput = ({    id, 
                         value,
+                        disabled,
                         type,
                         onChange,
                         onBlur,
@@ -27,7 +28,7 @@ const TextInput = ({    id,
                 error = '* Password doesn\'t match';
             }
         } else {
-            error = `* '${title}' is required`;
+            error = `* ${title} is required`;
         }
         
         setErrorMsg(error);
@@ -38,6 +39,7 @@ const TextInput = ({    id,
             <SimpleInput 
                 id={id} 
                 value={value}
+                disabled={disabled}
                 type={type} 
                 inputName={inputName} 
                 title={title} 

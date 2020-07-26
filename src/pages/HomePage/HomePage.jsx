@@ -5,9 +5,9 @@ const HomePage = () => {
 
     const [session] = React.useContext(UserSessionContext);
 
-    return (
-            (<div>{session.user && session.user.id ? "User: " + session.user.username : "Unauthorized"}</div>)
-    )
+  return (
+      <div>{session.user && session.user.id ? "User: " + session.user.username : "Unauthorized"}</div>
+  );
 }
 
 export default HomePage;

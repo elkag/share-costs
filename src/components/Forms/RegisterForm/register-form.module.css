@@ -1,14 +1,15 @@
-.error {
+.button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+ }
+ .error {
+    height:20px;
     color: red;
     font-size: small; 
- }
-
- .header {
-    text-align: justify;
-    color: #234465;
-    font-weight: bold;
     display: flex;
-    justify-content: center;
-    height: 29px;
-    width: 100%;
-  }
+    justify-content: flex-start;
+    padding-top: 5px;
+    padding-left: 5px;
+ }
+ 
+ 
