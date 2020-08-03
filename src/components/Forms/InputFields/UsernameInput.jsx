@@ -1,7 +1,6 @@
 import React from 'react';
 // Components
 import SimpleInput from './SimpleInput';
-import { checkUsernameApi } from '../../../api/shareCostsBackend/checkUsernameApi';
 
 const UsernameInput = ({  id, value, onChange, disabled, onBlur, error, inputName, title, placeholder }) => {
 

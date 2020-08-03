@@ -1,15 +1,15 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors/';
+import { green, deepOrange } from '@material-ui/core/colors/';
 
 const useSubmitStyles = makeStyles((theme) => ({
     buttonSuccess: {
-      backgroundColor: green[500],
+      backgroundColor: deepOrange[400],
       '&:hover': {
-        backgroundColor: green[700],
+        backgroundColor: deepOrange[700],
       },
     },
     buttonProgress: {
-        color: green[500],
+        color: deepOrange[700],
         position: "absolute",
         paddingRight: "24px",
         paddingLeft: "24px",

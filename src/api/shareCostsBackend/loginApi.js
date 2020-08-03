@@ -3,7 +3,7 @@ import { LOGIN_SERVICE_URL } from './config/config';
 export const loginApi = {
     logIn: async (username, password) => {
 
-        return await fetch(LOGIN_SERVICE_URL,
+        return fetch(LOGIN_SERVICE_URL,
             {
                 method: 'POST',
                 headers: {
@@ -29,14 +29,16 @@ export const loginApi = {
                     // {message: "..."}
                     return { error: true, message: error.message }
                 }
-                return error.json().then((responseJson) => {
+                console.log(error)
+                return { error: true, message: "Wrong username or password" }
+                
+                /*return error.clone().json().then((responseJson) => {
                     console.log(responseJson);
                     console.log("message = " + responseJson.message);
                     return responseJson;
                 }
-            )
-        }
-        ).then(responce => {
+            )*/
+        }).then(responce => {
             return responce;
         })
   }
