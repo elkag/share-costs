@@ -15,7 +15,7 @@ import RegisterForm from '../../components/Forms/RegisterForm/RegisterForm';
 const RegisterPage = (props) => {
 
     // Session context
-    const [session, setSession] = React.useContext(UserSessionContext);
+    const [, setSession] = React.useContext(UserSessionContext);
     const [loading, setLoading] = React.useState(false);
 
      // if there is some error from the server side

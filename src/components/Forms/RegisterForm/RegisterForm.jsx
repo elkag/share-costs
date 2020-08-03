@@ -147,7 +147,7 @@ const RegisterForm = ({onSubmit, isLoading, error}) => {
 
     return (
         <FormLayout>
-            <div className={styles.header}>Sign Up</div>
+            <div className={styles.header}>Create Account</div>
             <EmailInputField 
                 id="email"
                 value={email}

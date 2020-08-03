@@ -1,38 +1,31 @@
-import { REGISTER_SERVICE_URL } from "./config/config";
+import { GET_GROUPS_URL } from "./config/config";
+import { getSessionCookie } from "../../config/session";
 
-export const registerApi = {
-    register: async (
-        {
-            email,
-            firstName,
-            lastName,
-            password,
-            username
-        }
-    ) => {
-            return fetch(REGISTER_SERVICE_URL,
+export const getGroupsApi = {
+    getGroups: async () => {
+            return fetch(GET_GROUPS_URL,
                 {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + getSessionCookie().jwtToken
                     },
-                    // body data type must match "Content-Type" header
-                    body: JSON.stringify({
-                        email,
-                        firstName,
-                        lastName,
-                        password,
-                        username,
-                    })
+                    
                 }
             )
             .then( response => {
                     if(response.ok) {
-                        return {error: false};
+                        return response.json();
                     } 
                     throw response;
                 }
-            ).catch( error => {
+            )
+            .then( json => {
+                console.log(json);
+                console.log("message = " + json);
+                return json;
+            }
+        ).catch( error => {
                 console.log("Error occurred");
                 if (error instanceof Error) {
                     // {message: "..."}

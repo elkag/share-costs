@@ -1,21 +1,15 @@
 .header {
-    top: 0;
-    background-color: #234465;
+    background-color: #347aca;
     color: white;
-    overflow: hidden;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 2%;
+    padding-right: 2%;
     padding-top: 1%;
     padding-bottom: 1%;
     display: flex;
+    height: 70px;
+    align-items: center;
 }
 
-.header-right {
-    display: flex;
-    width: 100%;
-    justify-content: flex-end;
-    align-items: center;
-  }
 
 .logo{
     
