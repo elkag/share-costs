@@ -25,14 +25,14 @@ function Navigation() {
         <UserSessionProvider>
           <BrowserRouter>
             <Header/>
-              <Switch>
-                  <Route path={HOME_PAGE} exact component={HomePage}/>
-                  <Route path={LOGIN_PAGE} exact component={LoginPage} />
-                  <Route path={REGISER_PAGE} exact component={RegisterPage} />
-                  <Route path={MY_GROUPS_PAGE} exact component={MyGroupsPage} />
-                  <Route path={CREATE_GROUP_PAGE} exact component={CreateGroupPage} />
-                  <Route path={VIEW_GROUP_PAGE.concat(":groupId")} exact component={GroupPage} />
-              </Switch>
+            <Switch>
+                <Route path={HOME_PAGE} exact component={HomePage}/>
+                <Route path={LOGIN_PAGE} exact component={LoginPage} />
+                <Route path={REGISER_PAGE} exact component={RegisterPage} />
+                <Route path={MY_GROUPS_PAGE} exact component={MyGroupsPage} />
+                <Route path={CREATE_GROUP_PAGE} exact component={CreateGroupPage} />
+                <Route path={VIEW_GROUP_PAGE.concat(":groupId")} exact component={GroupPage} />
+            </Switch>
           </BrowserRouter>
         </UserSessionProvider>
       </div>

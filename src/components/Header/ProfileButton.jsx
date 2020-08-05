@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react';
 import { IconButton, Menu, MenuItem, makeStyles } from '@material-ui/core';
-import { UserSessionContext } from '../../contexts/userContext';
+import { UserContext } from '../../contexts/userContext';
 import { deepOrange, blue } from '@material-ui/core/colors';
-import { deleteSessionCoockie } from '../../config/session';
 
 const useStyles = makeStyles(theme => ({
     avatar: {
@@ -24,9 +23,9 @@ const useStyles = makeStyles(theme => ({
 }
 ));
 
-const ProfileButton = () => {
+const ProfileButton = ({logOutHandler}) => {
 
-    const [session, setSession] = React.useContext(UserSessionContext);
+    const [context, ] = React.useContext(UserContext);
     
     const classes = useStyles(makeStyles);
 
@@ -42,16 +41,14 @@ const ProfileButton = () => {
     };
     
     const logOut = (event) => {
-        event.preventDefault();
-        deleteSessionCoockie("session");
-        setSession({});
+        logOutHandler();
         handleClose();
     }
 
     return (
         <Fragment>
             <IconButton className={classes.avatar} onClick={ handleClick }>
-                {session.user.firstName[0] + session.user.lastName[0]}
+                {context.user.firstName[0] + context.user.lastName[0]}
             </IconButton>
             <div id="menu_container" className={classes.menu} />
                 

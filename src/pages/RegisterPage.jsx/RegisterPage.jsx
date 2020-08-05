@@ -2,11 +2,11 @@ import React from 'react';
 // Configuration
 import { HOME_PAGE } from '../../config/routes';
 import { setSessionCookie, deleteSessionCoockie } from '../../config/session';
-import { UserSessionContext } from '../../contexts/userContext';
+import { UserContext } from '../../contexts/userContext';
 
 // API
-import { registerApi } from '../../api/shareCostsBackend/registerApi';
-import { loginApi } from '../../api/shareCostsBackend/loginApi';
+import { registerApi } from '../../api/services/registerApi';
+import { loginApi } from '../../api/services/loginApi';
 
 // Components
 import RegisterForm from '../../components/Forms/RegisterForm/RegisterForm';
@@ -15,7 +15,7 @@ import RegisterForm from '../../components/Forms/RegisterForm/RegisterForm';
 const RegisterPage = (props) => {
 
     // Session context
-    const [, setSession] = React.useContext(UserSessionContext);
+    const [, setSession] = React.useContext(UserContext);
     const [loading, setLoading] = React.useState(false);
 
      // if there is some error from the server side

@@ -1,11 +1,11 @@
 import React from 'react';
-import { UserSessionContext } from '../../contexts/userContext';
+import { UserContext } from '../../contexts/userContext';
 import { HOME_PAGE } from '../../config/routes';
 import { Redirect } from 'react-router-dom';
 
 const CreateGroupPage = () => {
 
-  const [session] = React.useContext(UserSessionContext);
+  const [session] = React.useContext(UserContext);
   
   return (
     (!session || !session.user) ? <Redirect to={HOME_PAGE} /> :

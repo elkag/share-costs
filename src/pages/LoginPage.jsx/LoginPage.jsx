@@ -3,9 +3,9 @@ import React from 'react';
 import { setSessionCookie, getSessionCookie } from '../../config/session';
 import { HOME_PAGE, REGISER_PAGE } from '../../config/routes';
 // context
-import { UserSessionContext } from '../../contexts/userContext';
+import { UserContext } from '../../contexts/userContext';
 // API
-import { loginApi } from '../../api/shareCostsBackend/loginApi';
+import { loginApi } from '../../api/services/loginApi';
 //components
 import LoginForm from '../../components/Forms/LoginForm/LoginForm';
 import { Link } from 'react-router-dom';
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 const LoginPage = (props) => {
   
     // User session
-    const [, setSession] = React.useContext(UserSessionContext);
+    const [, setSession] = React.useContext(UserContext);
     const [error, setError] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const classes = useStyles(makeStyles);

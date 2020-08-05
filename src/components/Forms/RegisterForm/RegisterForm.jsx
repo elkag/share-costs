@@ -10,7 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import useSubmitButtonStyles from '../submitButtonStyles';
 import UsernameInput from '../InputFields/UsernameInput';
-import { checkUsernameApi } from '../../../api/shareCostsBackend/checkUsernameApi';
+import { checkUsernameApi } from '../../../api/services/checkUsernameApi';
 
 const RegisterForm = ({onSubmit, isLoading, error}) => {
 

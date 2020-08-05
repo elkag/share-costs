@@ -9,14 +9,15 @@ import ProfileButton from './ProfileButton';
 import LoginButton from './LoginButton';
 
 // Config
-import { UserSessionContext } from '../../contexts/userContext';
-import { MY_GROUPS_PAGE, CREATE_GROUP_PAGE } from '../../config/routes';
+import { UserContext } from '../../contexts/userContext';
+import { MY_GROUPS_PAGE, CREATE_GROUP_PAGE, LOGIN_PAGE } from '../../config/routes';
 
 // Styles
 import styles from './header.module.css';
 import { makeStyles } from '@material-ui/core';
 
 import { useHistory } from 'react-router-dom';
+import { deleteSessionCoockie } from '../../config/session';
 
 const useStyles = makeStyles(theme => ({
         mainIconsWrapper: {
@@ -35,15 +36,19 @@ const Header = () => {
     const history = useHistory();
 
     const classes = useStyles();
-    const [session, ] = React.useContext(UserSessionContext);
-    
+    const [user, setUser] = React.useContext(UserContext);
+
+    const logOut = () => {
+        deleteSessionCoockie("session");
+        setUser({});
+    }
 
     return (
         <div className={styles.header}>
                 {
-                   session && session.user && session.user !== {} ? ( 
+                   user && user.user && user.user !== {} ? ( 
                     <Fragment> 
-                        <ProfileButton />
+                        <ProfileButton logOutHandler={logOut}/>
                         <div className={classes.mainIconsWrapper}>
                             <HeaderIcon label="My Groups" onClick={() => history.push(MY_GROUPS_PAGE)}>
                                 <GroupIcon/>
@@ -58,7 +63,7 @@ const Header = () => {
                         </Fragment>
                         ) : (
                             <Fragment>
-                                <LoginButton />
+                                <LoginButton onClick={() => history.push(LOGIN_PAGE)} />
                             </Fragment>
                     )  
                 }

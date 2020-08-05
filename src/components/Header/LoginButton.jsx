@@ -44,21 +44,15 @@ const useStyles = makeStyles(theme => ({
 }
 ));
 
-const LoginButton = () => {
+const LoginButton = ({onClick}) => {
     const classes = useStyles(makeStyles);
-
-    const history = useHistory();
-
-    const logIn = () => {
-        history.push(LOGIN_PAGE);
-    }
 
     return (
         <div clasName={classes.wrapper}>
-            <IconButton className={classes.avatar} onClick={ logIn }>
+            <IconButton className={classes.avatar} onClick={ onClick }>
                 <AccountCircleIcon className={classes.icon} />
             </IconButton>
-            <div className={classes.label}>
+            <div data-test-id="login-button-label" className={classes.label}>
                 Log In
             </div>
         </div>

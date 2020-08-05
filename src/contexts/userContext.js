@@ -1,7 +1,7 @@
 import React, { useState, createContext } from 'react';
 import { getSessionCookie } from '../config/session';
 
-export const UserSessionContext = createContext();
+export const UserContext = createContext();
 
 export const UserSessionProvider = (props) => {
 
@@ -10,8 +10,8 @@ export const UserSessionProvider = (props) => {
     });
     
     return(
-        <UserSessionContext.Provider value={[session, setSession]}>
+        <UserContext.Provider value={[session, setSession]}>
             {props.children}
-        </UserSessionContext.Provider>
+        </UserContext.Provider>
     );
 }

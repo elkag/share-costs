@@ -1,9 +1,9 @@
 import React from 'react';
-import { UserSessionContext } from '../../contexts/userContext';
+import { UserContext } from '../../contexts/userContext';
 
 const HomePage = () => {
 
-    const [session] = React.useContext(UserSessionContext);
+    const [session] = React.useContext(UserContext);
 
   return (
       <div>{session.user && session.user.id ? "User: " + session.user.username : "Unauthorized"}</div>
