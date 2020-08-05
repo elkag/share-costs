@@ -1,7 +1,6 @@
 import { CHECK_USERNAME_SERVICE_URL } from './config/config';
 
 /**
- * Sends request to BE:
  * request:
  *          { username: String }
  * response:

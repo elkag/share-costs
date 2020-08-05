@@ -2,11 +2,11 @@ import React, { useEffect, Fragment } from 'react';
 import { UserContext } from '../../contexts/userContext';
 import { HOME_PAGE } from '../../config/routes';
 import { Redirect, useParams } from 'react-router-dom';
-import GroupView from '../../components/Groups/GroupView';
 import { getGroupApi } from '../../api/services/getGroupApi';
 import PageBackdrop from '../PageBackdrop/PageBackdrop';
 import { SERVER_ERROR } from '../../config/systemMessages';
 import MessageSnackbar from '../../components/Snackbar/MessageSnackbar';
+import GroupView from '../../components/GroupView/GroupView';
 
 
 const GroupPage = ({groupId}) => {
