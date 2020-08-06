@@ -60,11 +60,11 @@ const Header = () => {
                                 <EuroIcon />
                             </HeaderIcon>
                         </div>
+                    </Fragment>
+                    ) : (
+                        <Fragment>
+                            <LoginButton onClick={() => history.push(LOGIN_PAGE)} />
                         </Fragment>
-                        ) : (
-                            <Fragment>
-                                <LoginButton onClick={() => history.push(LOGIN_PAGE)} />
-                            </Fragment>
                     )  
                 }
             </div>

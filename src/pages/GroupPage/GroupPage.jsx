@@ -3,7 +3,7 @@ import { UserContext } from '../../contexts/userContext';
 import { HOME_PAGE } from '../../config/routes';
 import { Redirect, useParams } from 'react-router-dom';
 import { getGroupApi } from '../../api/services/getGroupApi';
-import PageBackdrop from '../PageBackdrop/PageBackdrop';
+import PageBackdrop from '../../components/PageBackdrop/PageBackdrop';
 import { SERVER_ERROR } from '../../config/systemMessages';
 import MessageSnackbar from '../../components/Snackbar/MessageSnackbar';
 import GroupView from '../../components/GroupView/GroupView';

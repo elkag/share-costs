@@ -1,7 +1,23 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
+import { grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
+    button: { 
+        display: 'flex',
+        flexDirection: 'column',
+        fontFamily: 'Arial, Helvetica, sans-serif',
+        border: "1px solid",
+        borderColor:  grey[100],
+        borderRadius: '5px',
+        backgroundColor: grey[50],
+        width: '100%',
+        textTransform: "none",
+        textAlign: 'center',
+        '&:hover': {
+            backgroundColor: grey[100],
+        }
+    },
     wrapper: {
         width: '100%',
         display: 'flex',
@@ -14,8 +30,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: "row",
         alignItems: "right",
-        paddingBottom: "12px",
-       
+        
     },
     label: {
         width: "100%",
@@ -45,32 +60,34 @@ const UserInGroupView = ({spending, costs, balance}) => {
     const classes = useStyles(makeStyles);
 
     return(
-        <div className={classes.wrapper}>
-            <div className={classes.rowWrapper}>
-                <div className={classes.label}>
-                    Spending: 
+        <Button className={classes.button}>
+            <div className={classes.wrapper}>
+                <div className={classes.rowWrapper}>
+                    <div className={classes.label}>
+                        Spending: 
+                    </div>
+                    <div className={classes.amountRed}>
+                        {spending}
+                    </div>
                 </div>
-                <div className={classes.amountRed}>
-                    {spending}
+                <div className={classes.rowWrapper}>
+                    <div className={classes.label}>
+                        Costs: 
+                    </div>
+                    <div className={classes.amountGreen}>
+                        {costs}
+                    </div>
+                </div>
+                <div className={classes.rowWrapper}>
+                    <div className={classes.label} >
+                        Balance: 
+                    </div>
+                    <div className={balance < 0 ? classes.amountRed : classes.amountGreen}>
+                        {balance}
+                    </div>
                 </div>
             </div>
-            <div className={classes.rowWrapper}>
-                <div className={classes.label}>
-                    Costs: 
-                </div>
-                <div className={classes.amountGreen}>
-                    {costs}
-                </div>
-            </div>
-            <div className={classes.rowWrapper}>
-                <div className={classes.label} >
-                    Balance: 
-                </div>
-                <div className={balance < 0 ? classes.amountRed : classes.amountGreen}>
-                    {balance}
-                </div>
-            </div>
-        </div>
+        </Button>
     )
 }
 

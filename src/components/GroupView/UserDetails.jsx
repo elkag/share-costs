@@ -48,22 +48,22 @@ const UserDetails = ({user}) => {
     return (
         <Accordion>
             <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
             > 
-        <div className={classes.names}>{user.firstName}&nbsp;{user.lastName}</div> 
-                {(user.balance < 0) ?
-                    <div className={classes.balancePaper}>{Number(user.balance).toFixed(2)}</div>
-                    :
-                    <div className={classes.balancePaperGreen}>{Number(user.balance).toFixed(2)}</div>
-                }
-        </AccordionSummary>
+                <div className={classes.names}>{user.firstName}&nbsp;{user.lastName}</div> 
+                        {(user.balance < 0) ?
+                            <div className={classes.balancePaper}>{Number(user.balance).toFixed(2)}</div>
+                            :
+                            <div className={classes.balancePaperGreen}>{Number(user.balance).toFixed(2)}</div>
+                        }
+            </AccordionSummary>
             <AccordionDetails> 
-            <UserInGroupView 
-                spending={Number(user.spending).toFixed(2)} 
-                costs={Number(user.costs).toFixed(2)}
-                balance={Number(user.balance).toFixed(2)} />
+                <UserInGroupView 
+                    spending={Number(user.spending).toFixed(2)} 
+                    costs={Number(user.costs).toFixed(2)}
+                    balance={Number(user.balance).toFixed(2)} />
             </AccordionDetails>
         </Accordion>
     )

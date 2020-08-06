@@ -5,7 +5,7 @@ import { HOME_PAGE } from '../../config/routes';
 import { getGroupsApi } from '../../api/services/getGroupsApi';
 import GroupList from '../../components/Groups/GroupList';
 import MessageSnackbar from '../../components/Snackbar/MessageSnackbar';
-import PageBackdrop from '../PageBackdrop/PageBackdrop';
+import PageBackdrop from '../../components/PageBackdrop/PageBackdrop';
 import { SERVER_ERROR } from '../../config/systemMessages';
 
 const MyGroupsPage = () => {
