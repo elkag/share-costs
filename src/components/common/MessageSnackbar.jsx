@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-export default function MessageSnackbar({message}) {
-  const [open, setOpen] = React.useState(true);
+export default function MessageSnackbar({isError, message}) {
+  const [, setOpen] = React.useState(isError);
 
   const classes = useStyles(makeStyles);
 
@@ -45,7 +45,7 @@ export default function MessageSnackbar({message}) {
           vertical: 'bottom',
           horizontal: 'center',
         }}
-        open={open}
+        open={isError}
         color="red"
         autoHideDuration={60000}
         onClose={handleClose}

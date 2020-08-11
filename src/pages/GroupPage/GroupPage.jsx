@@ -3,10 +3,9 @@ import { UserContext } from '../../contexts/userContext';
 import { HOME_PAGE } from '../../config/routes';
 import { Redirect, useParams } from 'react-router-dom';
 import { getGroupApi } from '../../api/services/getGroupApi';
-import PageBackdrop from '../../components/PageBackdrop/PageBackdrop';
 import { SERVER_ERROR } from '../../config/systemMessages';
-import MessageSnackbar from '../../components/Snackbar/MessageSnackbar';
 import GroupView from '../../components/GroupView/GroupView';
+import Loader from '../../components/common/Loader';
 
 
 const GroupPage = ({groupId}) => {
@@ -18,11 +17,11 @@ const GroupPage = ({groupId}) => {
   const params = useParams();
 
   const getGroup = async () => {
-    const responce = await getGroupApi.getGroup(params.groupId);
-    if(responce.error){
+    const response = await getGroupApi.getGroup(params.groupId);
+    if(response.error){
       setError(SERVER_ERROR);
     } else {
-      setGroup(responce);
+      setGroup(response);
     }
     
     setLoading(false);
@@ -35,9 +34,8 @@ const GroupPage = ({groupId}) => {
   return (
     (!session || !session.user) ? <Redirect to={HOME_PAGE} /> :
      <Fragment>
-        <PageBackdrop isLoading={loading} />
+        <Loader loading={loading} isError={error !== ''} message={error} />
         {!loading && <GroupView group={group} />}
-        {error !== '' && <MessageSnackbar message={error}/>}
      </Fragment>
   );
 }

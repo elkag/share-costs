@@ -44,8 +44,8 @@ export const registerApi = {
                     return responseJson;
                 }
             )
-        }).then(responce => {
-            return responce;
+        }).then(response => {
+            return response;
         }) 
   }
 }
