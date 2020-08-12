@@ -10,7 +10,7 @@ import { loginApi } from '../../api/services/loginApi';
 import LoginForm from '../../components/Forms/LoginForm/LoginForm';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
-import { blue } from '@material-ui/core/colors';
+import { blue, red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
   pageWrapper: {
@@ -37,9 +37,12 @@ const useStyles = makeStyles(theme => ({
       color: "blue",
       textDecoration: "none",
     }
+  },
+  error: {
+    color: red[600],
+    fontSize: "small" 
   }
-}
-));
+}));
 
 const LoginPage = (props) => {
   

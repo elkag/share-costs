@@ -33,12 +33,18 @@ const GroupPage = () => {
     getGroup();
   },[getGroup])
 
+  const render = () => {
+    if(!session || !session.user) {
+      return <Redirect to={HOME_PAGE} />
+    }
+
+    return <GroupContext.Provider value={{group, getGroup}}>
+              <Loader loading={loading} error={error} />
+              {!loading && <GroupView />}
+          </GroupContext.Provider>
+  }
   return (
-    (!session || !session.user) ? <Redirect to={HOME_PAGE} /> :
-    <GroupContext.Provider value={{group, getGroup}}>
-        <Loader loading={loading} error={error} />
-        {!loading && <GroupView />}
-    </GroupContext.Provider>
+    render()
   );
 }
 

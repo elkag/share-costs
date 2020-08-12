@@ -36,10 +36,6 @@ const MyGroupsPage = () => {
 
   },[])
 
-  useEffect( () => {
-    console.log(error)
-
-  },[error])
   const renderElements = () => {
 
     return (

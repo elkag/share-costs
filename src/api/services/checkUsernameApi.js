@@ -19,7 +19,6 @@ export const checkUsernameApi = {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                // body data type must match "Content-Type" header
                 body: JSON.stringify({username})
             }
             ).then( response => {
