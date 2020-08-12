@@ -31,7 +31,7 @@ export const sendExpenseApi = {
             }
             ).then( response => {
                     if(response.ok) {
-                        return response.json();
+                        return response;
                     } 
                     throw response;
                 }

@@ -29,7 +29,7 @@ export const recalculateOnChangeUserAmount = (expense, user, amount) => {
 
     let count = clone.users.filter(current => !current.amount.updated).length;
 
-    let totalPaid = clone.users
+    let totalPaidInCents = clone.users
                 .filter(current => current.amount.updated)
                 .map(current => current.amount.value)
                 .reduce((a, b) => parseFloat(a) + parseFloat(b), 0);
@@ -47,9 +47,9 @@ export const recalculateOnChangeUserAmount = (expense, user, amount) => {
         count = clone.users.length - 1;
     }
 
-    let amountPerUser = (clone.total - totalPaid) / count;
+    let amountPerUserInCents = (clone.totalInCents - totalPaidInCents) / count;
     
-    if(amountPerUser < 0) {
+    if(amountPerUserInCents < 0) {
         clone.users
         .filter(current => user.id !== current.id)
         .map(current => {
@@ -58,18 +58,18 @@ export const recalculateOnChangeUserAmount = (expense, user, amount) => {
             return current;
         })
 
-        totalPaid = clone.users
+        totalPaidInCents = clone.users
                 .filter(current => current.amount.updated)
                 .map(current => current.amount.value)
                 .reduce((a, b) => parseFloat(a) + parseFloat(b), 0);
     }
 
-    amountPerUser = (clone.total - totalPaid) / count;
+    amountPerUserInCents = (clone.totalInCents - totalPaidInCents) / count;
 
     clone.users.filter(current => !current.amount.updated).map(current => {
-        current.amount.value = amountPerUser
+        current.amount.value = amountPerUserInCents;
         current.amount.max = clone.total;
-        current.amount.stringValue = amountPerUser;
+        current.amount.stringValue = (amountPerUserInCents/100).toFixed(2);
         return current;
     })
 
@@ -94,7 +94,7 @@ export const recalculateAllUsersAmount = (expense, total) => {
     clone.users.map(current => {
         current.amount.value = amountPerUser
         current.amount.max = amountPerUser;
-        current.amount.stringValue = (amountPerUser/100).toString();
+        current.amount.stringValue = (amountPerUser/100).toFixed(2);
         return current;
     })
 
@@ -117,7 +117,7 @@ export const recalculateForNewMember = (expense, user) => {
     clone.users.map(current => {
         current.amount.value = amountPerUser
         current.amount.max = amountPerUser;
-        current.amount.stringValue = (amountPerUser/100).toString();
+        current.amount.stringValue = (amountPerUser/100).toFixed(2);
         return current;
     })
 
@@ -141,7 +141,7 @@ export const recalculateOnRemoveUser = (expense, user) => {
     clone.users.map(current => {
         current.amount.value = amountPerUser
         current.amount.max = amountPerUser;
-        current.amount.stringValue = (amountPerUser/100).toString();
+        current.amount.stringValue = (amountPerUser/100).toFixed(2);
         return current;
     })    
 
@@ -165,7 +165,7 @@ export const recalculateOnChangeWeight = (expense, user, weight) => {
         const amount = perCount * current.weight;
         current.amount.updated = false;
         current.amount.value = amount;
-        current.amount.stringValue = (amount/100).toString();
+        current.amount.stringValue = (amount/100).toFixed(2);
         current.amount.max = clone.totalInCents;
         return current;
     });

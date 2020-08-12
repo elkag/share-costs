@@ -12,6 +12,7 @@ import * as converter from './utils/expenseConverter';
 import { sendExpenseApi } from '../../api/services/sendExpenseApi';
 import { SERVER_ERROR } from '../../config/systemMessages';
 import Loader from '../common/Loader';
+import { GroupContext } from '../../pages/GroupPage/GroupPage';
 
 const useStyles = makeStyles(theme => ({
     wrapper: {
@@ -74,7 +75,11 @@ const useStyles = makeStyles(theme => ({
     @param {*} submit SubmitHandler
     @param {*} close  CloseHandler
  */
-const ExpenseContainer = ({group, description, submit, close}) => {
+const ExpenseContainer = ({description, submit, close}) => {
+
+    const context = useContext(GroupContext);
+    const group = context.group;
+    const getGroup = context.getGroup;
 
     const [session, ] = useContext(UserContext);
     const classes = useStyles(makeStyles);
@@ -127,7 +132,20 @@ const ExpenseContainer = ({group, description, submit, close}) => {
 
     const [error, setError] = useState('');
 
-   
+    const onSubmit = async () => {
+        const request = converter.convertToRequest(group, expense);
+        setLoading(true);
+        const response = await sendExpenseApi.requestExpense(request);
+        
+        if(response.error) {
+            setError(SERVER_ERROR)
+        } else {
+            submit();
+            getGroup();
+        }
+        setLoading(false);
+    }
+
     const onChangeTotal = (total) => {
 
         const updated = utils.recalculateAllUsersAmount(expense, total)
@@ -170,6 +188,37 @@ const ExpenseContainer = ({group, description, submit, close}) => {
         setExpense(updated);
     }
 
+    const addToActiveHandler = (user) => {
+        setActiveMembers(activeMembers.concat(user));
+        setInactiveMembers(inactiveMembers.filter(current => current !== user));
+
+        const mapped = {
+            id: user.id, 
+            firstName: user.firstName,
+            lastName: user.lastName,
+            amount: {
+                value: 0,
+                stringValue: '',
+                updated: false,
+            },
+            weight: 1
+        }
+
+        const updated = utils.recalculateForNewMember(expense, mapped);
+        setExpense(updated)
+    }
+
+    const addToInactiveHandler = (user) => {
+        
+        if(user.id !== session.user.id) {
+            setInactiveMembers(inactiveMembers.concat(user));
+            setActiveMembers(activeMembers.filter(current => current !== user));
+            
+            const updated = utils.recalculateOnRemoveUser(expense, user)
+            setExpense(updated);
+        }
+    }
+
     const renderActiveMembers = () => {
         return (
             <div className={classes.membersWrapper}>
@@ -207,50 +256,6 @@ const ExpenseContainer = ({group, description, submit, close}) => {
         )
     }
 
-    const addToActiveHandler = (user) => {
-        setActiveMembers(activeMembers.concat(user));
-        setInactiveMembers(inactiveMembers.filter(current => current !== user));
-
-        const mapped = {
-            id: user.id, 
-            firstName: user.firstName,
-            lastName: user.lastName,
-            amount: {
-                value: 0,
-                stringValue: '',
-                updated: false,
-            },
-            weight: 1
-        }
-
-        const updated = utils.recalculateForNewMember(expense, mapped);
-        setExpense(updated)
-    }
-
-    const addToInactiveHandler = (user) => {
-        
-        if(user.id !== session.user.id) {
-            setInactiveMembers(inactiveMembers.concat(user));
-            setActiveMembers(activeMembers.filter(current => current !== user));
-            
-            const updated = utils.recalculateOnRemoveUser(expense, user)
-            setExpense(updated);
-        }
-    }
-
-    const onSubmit = async () => {
-        const request = converter.convertToRequest(group, expense);
-        setLoading(true);
-        const response = await sendExpenseApi.requestExpense(request);
-        
-        if(response.error) {
-            setError(SERVER_ERROR)
-        } else {
-            submit();
-        }
-        setLoading(false);
-    }
-
     return (
         <div >
            
@@ -268,7 +273,10 @@ const ExpenseContainer = ({group, description, submit, close}) => {
                     { renderActiveMembers() }
                     <div className={classes.buttonWrapper}>
                         <div className={classes.button} >
-                            <Button variant="contained" onClick={onSubmit} className={classes.submitButton} >Submit</Button>
+                            <Button variant="contained" 
+                            onClick={onSubmit} 
+                            disabled={!(expense.total > 0)}
+                            className={classes.submitButton} >Submit</Button>
                         </div>
                     </div>
                     { renderInactiveMembers() }

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { grey } from '@material-ui/core/colors';
 import { makeStyles, Paper, Divider, Button } from '@material-ui/core';
 import UserDetails from './UserDetails';
 import ExpenseContainer from '../Expense/ExpenseContainer';
 import WriteExpenseNameDialog from './WriteExpenseNameDialog';
+import { GroupContext } from '../../pages/GroupPage/GroupPage';
 
 
 const useStyles = makeStyles(theme => ({
@@ -91,12 +92,15 @@ const useStyles = makeStyles(theme => ({
     
 }));
 
-const GroupView = ({group}) => {
+const GroupView = () => {
 
     const GROUP_VIEW = "GROUP_VIEW";
     const EXPENSE_VIEW = "EXPENSE_VIEW";
     const DIALOG_VIEW = "DIALOG_VIEW";
 
+    const context = useContext(GroupContext);
+
+    const group = context.group;
     const classes = useStyles(makeStyles);
 
     const [state, setState] = useState(GROUP_VIEW);
