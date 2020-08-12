@@ -125,8 +125,10 @@ export const recalculateForNewMember = (expense, user) => {
 }
 
 export const recalculateOnRemoveUser = (expense, user) => {
+    
     let clone = Object.assign({}, expense);
-
+    
+    
     clone = {...clone,  users: [...clone.users.filter(value => value.id !== user.id)] }
     
     if(clone.inputType === INPUT_TYPE.PROPORTIONAL) {
@@ -197,7 +199,7 @@ const recalculatePerWeight = (expense) => {
     
     let clone = Object.assign({}, expense);
     
-    const count = clone.users.map(current => current.weight).reduce((a, b) => a + b, 0);
+    const count = clone.users.map(user => user.weight).reduce((a, b) => a + b, 0);
     
     const amountPerUser = clone.totalInCents / count;
 

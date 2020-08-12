@@ -102,7 +102,9 @@ const GroupView = ({group}) => {
     const [state, setState] = useState(GROUP_VIEW);
     const [expenseDescription, setExpenseDescription] = useState('');
 
-    const openExpenseContainer = () => {
+    const openExpenseContainer = (event) => {
+        console.log(event.target)
+        event.preventDefault();
         setState(DIALOG_VIEW);
     }
 
@@ -125,6 +127,7 @@ const GroupView = ({group}) => {
     }
 
     const renderExpenseContainer = () => {
+        console.log(state);
         if(state === EXPENSE_VIEW) {
             return (
                 <div className={classes.expenseWrapper}>
