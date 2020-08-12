@@ -1,12 +1,11 @@
 import React, { useEffect, Fragment } from 'react';
 import { UserContext } from '../../contexts/userContext';
 import { Redirect } from 'react-router-dom';
-import { HOME_PAGE } from '../../config/routes';
 import { getGroupsApi } from '../../api/services/getGroupsApi';
-import GroupList from '../../components/Groups/GroupList';
-import MessageSnackbar from '../../components/Snackbar/MessageSnackbar';
-import PageBackdrop from '../../components/PageBackdrop/PageBackdrop';
 import { SERVER_ERROR } from '../../config/systemMessages';
+import { HOME_PAGE } from '../../config/routes';
+import Loader from '../../components/common/Loader';
+import GroupList from '../../components/Groups/GroupList'
 
 const MyGroupsPage = () => {
 
@@ -17,12 +16,12 @@ const MyGroupsPage = () => {
   const isMountedComponent = React.useRef(true);
 
   const getGroups = async () => {
-    const responce = await getGroupsApi.getGroups();
+    const response = await getGroupsApi.getGroups();
     setLoading(false);
-    if(responce.error){
+    if(response.error){
       setError(SERVER_ERROR);
     } else {
-      setGroups(responce);
+      setGroups(response);
     }
   }
 
@@ -45,9 +44,8 @@ const MyGroupsPage = () => {
 
     return (
       <Fragment>
-        <PageBackdrop isLoading={loading} />
-        {!loading && <GroupList groups={groups} />}
-        {error !== '' && <MessageSnackbar message={error}/>}
+        <Loader loading={loading} error={error} />
+          <GroupList groups={groups} />
       </Fragment>
     )
    

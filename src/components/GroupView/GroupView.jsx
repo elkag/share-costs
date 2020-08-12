@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { grey } from '@material-ui/core/colors';
-import { makeStyles, Paper, Divider } from '@material-ui/core';
+import { makeStyles, Paper, Divider, Button } from '@material-ui/core';
 import UserDetails from './UserDetails';
+import ExpenseContainer from '../Expense/ExpenseContainer';
+import WriteExpenseNameDialog from './WriteExpenseNameDialog';
+import { GroupContext } from '../../pages/GroupPage/GroupPage';
 
 
 const useStyles = makeStyles(theme => ({
@@ -9,8 +12,18 @@ const useStyles = makeStyles(theme => ({
     wrapper: {
         paddingTop: '20px',
         width: '100%',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
+    },
+    expenseWrapper: {
+        zIndex: '1',
+        position: 'absolute',
+        top: '0',
+        bottom: '0',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,0.5)',
     },
     groupWrapper: {
         display: 'flex',
@@ -79,20 +92,80 @@ const useStyles = makeStyles(theme => ({
     
 }));
 
-const GroupView = ({group}) => {
+const GroupView = () => {
 
+    const GROUP_VIEW = "GROUP_VIEW";
+    const EXPENSE_VIEW = "EXPENSE_VIEW";
+    const DIALOG_VIEW = "DIALOG_VIEW";
+
+    const context = useContext(GroupContext);
+
+    const group = context.group;
     const classes = useStyles(makeStyles);
 
-    return (
-        (!group ) ? <div /> :
-            <div  className={classes.wrapper} >
+    const [state, setState] = useState(GROUP_VIEW);
+    const [expenseDescription, setExpenseDescription] = useState('');
+
+    const openExpenseContainer = (event) => {
+        console.log(event.target)
+        event.preventDefault();
+        setState(DIALOG_VIEW);
+    }
+
+    const onSubmitDescriptionDialog = (description) => {
+        setExpenseDescription(description);
+        setState(EXPENSE_VIEW);
+    }
+    
+    const onCancelDescriptionDialog = ({description}) => {
+        setState(GROUP_VIEW)
+    }
+
+    
+    const closeExpenseContainer = () => {
+        setState(GROUP_VIEW);
+    }
+
+    const onSubmitExpense = () => {
+        setState(GROUP_VIEW);
+    }
+
+    const renderExpenseContainer = () => {
+        console.log(state);
+        if(state === EXPENSE_VIEW) {
+            return (
+                <div className={classes.expenseWrapper}>
+                    <ExpenseContainer 
+                        group={group} 
+                        description={expenseDescription} 
+                        submit={onSubmitExpense} 
+                        close={closeExpenseContainer}/>
+                </div>
+            )
+        }
+
+        if(state === DIALOG_VIEW) {
+            return <WriteExpenseNameDialog 
+                onSubmit={onSubmitDescriptionDialog} 
+                onCancel={onCancelDescriptionDialog} />
+        }
+        return null;
+    }
+
+    return ( 
+            (!group)  ? <div /> :
+            <div className={classes.wrapper} >
+                { renderExpenseContainer() }
+               
+            <div  className={classes.wrapper} ></div>
                 <Paper className={classes.paper} elevation={2}>
                     <div className={classes.wrapper}>
                         <div className={classes.titleWrapper}>
                             <div className={classes.titleLeft}>{group.name}</div>
-                            <div className={classes.titleRight}><a href="#">New Expences</a></div>
+                            <div className={classes.titleRight}>
+                                <Button onClick={openExpenseContainer}>New Expense</Button></div>
                         </div>
-                        <Divider orintation="horisontal" />
+                        <Divider />
                     
                         <div  className={classes.description}>{group.description}</div>
                         <div className={classes.box}>
@@ -101,18 +174,18 @@ const GroupView = ({group}) => {
                                 <div className={classes.namesWrapper}>
                                 {
                                     group.users.map(user => (
-                                        <UserDetails user={user}/>
+                                        <UserDetails key={user.id} user={user}/>
                                     ))
                                 } 
                                 </div>
                             </div>
                         </div>
-                        {group.pendingUsers.length > 0 && <Divider orintation="horisontal" />}
+                        {group.pendingUsers.length > 0 && <Divider />}
                         <div className={classes.groupWrapper}>
                             <div className={classes.namesWrapper}>
                             {
                                 group.pendingUsers.map(user => (
-                                        <div className={classes.namesGrey}>
+                                        <div  key={user.id} className={classes.namesGrey}>
                                             {user.firstName}&nbsp;{user.lastName}
                                         </div>
                                 ))
@@ -120,7 +193,7 @@ const GroupView = ({group}) => {
                             </div>
                         </div>
                     </div>
-                    <Divider orintation="horisontal" />
+                    <Divider />
                     <div className={classes.total}>Balance: {group.balance}</div>
                 </Paper>
             </div>

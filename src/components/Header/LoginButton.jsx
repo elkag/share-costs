@@ -48,7 +48,7 @@ const LoginButton = ({onClick}) => {
     const classes = useStyles(makeStyles);
 
     return (
-        <div clasName={classes.wrapper}>
+        <div className={classes.wrapper}>
             <IconButton className={classes.avatar} onClick={ onClick }>
                 <AccountCircleIcon className={classes.icon} />
             </IconButton>
