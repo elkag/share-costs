@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
     },
     expenseWrapper: {
+        zIndex: '1',
         position: 'absolute',
         top: '0',
         bottom: '0',

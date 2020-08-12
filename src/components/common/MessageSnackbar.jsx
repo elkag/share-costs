@@ -5,6 +5,7 @@ import ErrorIcon from '@material-ui/icons/Error';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
+import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
     error: {
@@ -25,10 +26,11 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-export default function MessageSnackbar({isError, message}) {
-  const [, setOpen] = React.useState(isError);
+export default function MessageSnackbar({message}) {
+  const [open, setOpen] = React.useState((message !== ''));
 
   const classes = useStyles(makeStyles);
+
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -45,7 +47,7 @@ export default function MessageSnackbar({isError, message}) {
           vertical: 'bottom',
           horizontal: 'center',
         }}
-        open={isError}
+        open={open}
         color="red"
         autoHideDuration={60000}
         onClose={handleClose}

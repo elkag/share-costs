@@ -34,7 +34,7 @@ const GroupPage = ({groupId}) => {
   return (
     (!session || !session.user) ? <Redirect to={HOME_PAGE} /> :
      <Fragment>
-        <Loader loading={loading} isError={error !== ''} message={error} />
+        <Loader loading={loading} error={error} />
         {!loading && <GroupView group={group} />}
      </Fragment>
   );

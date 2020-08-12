@@ -252,8 +252,8 @@ const ExpenseContainer = ({group, description, submit, close}) => {
     }
 
     return (
-        <div>
-            <Loader loading={loading} isError={error !== ''} error={error} />
+        <div >
+           
             <div className={classes.wrapper}>
                 
                 <Paper className={classes.paper} elevation={0}>
@@ -274,6 +274,7 @@ const ExpenseContainer = ({group, description, submit, close}) => {
                     { renderInactiveMembers() }
                </Paper>
             </div>
+            <Loader loading={loading} isError={error !== ''} error={error} />
             </div>
     )
 }
