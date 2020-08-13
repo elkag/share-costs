@@ -1,10 +1,11 @@
 import React from 'react';
-import { InputBase } from '@material-ui/core';
 import { UserContext } from '../../contexts/userContext';
 import { Redirect, useHistory } from 'react-router-dom';
 import { HOME_PAGE, VIEW_GROUP_PAGE } from '../../config/routes';
 import StyledButton from '../../components/common/StyledButton';
 import {createGroupApi} from '../../api/services/createGroupApi'
+import TextInput from '../../components/Forms/InputFields/TextInput';
+import FormLayout from '../../components/Forms/FormLayout/FormLayout';
 
 const CreateGroupPage = () => {
 
@@ -13,21 +14,20 @@ const CreateGroupPage = () => {
     const [name, setName] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [userIds, ] = React.useState([]);
-
+    const [loading, setLoading] = React.useState('');
+    const [error, setError] = React.useState('');
     const history = useHistory();
 
-    const createGroup = async () => {
+    const onSubmit = async (event) => {
+        event.preventDefault();
         const response = await createGroupApi.createGroup({name, description, userIds});
         history.push(VIEW_GROUP_PAGE + response.id);
     }
 
-    const onChangeName = (event) => {
-        setName(event.target.value);
+    const onChangeName = (value) => {
+        setName(value);
     }
 
-    const onChangeDescription = (event) => {
-        setDescription(event.target.value);
-    }
 
     const render = () => {
         if (!session || !session.user) {
@@ -35,12 +35,27 @@ const CreateGroupPage = () => {
         }
         return (
             <div>
-                <form onSubmit={createGroup}>
-                    <div>Name</div>
-                    <InputBase id="group-name" value={name} onChange={onChangeName} />
-                    <div>Short Description</div>
-                    <textarea id="group-description" value={description} onChange={onChangeDescription} />
-                    <StyledButton id="submit-group" onClick={createGroup} disabled={name === ''}>Submit</StyledButton>
+                <form onSubmit={onSubmit}>
+                    <FormLayout>
+                    <TextInput 
+                        id="group-name" 
+                        disabled={loading}
+                        type="text"
+                        value={name}
+                        inputName="Group Name" 
+                        title="Name" 
+                        placeholder="Group name.."
+                        onChange={ onChangeName } />
+                
+                    <div >{error}</div>
+                        <StyledButton
+                            onClick={onSubmit}
+                            disabled={loading}
+                            >
+                            OK
+                        </StyledButton>
+                        
+                </FormLayout>
                 </form>
             </div>
         )

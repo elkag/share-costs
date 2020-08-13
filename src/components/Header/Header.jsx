@@ -23,6 +23,7 @@ import { mainGreen } from '../../styles/colors';
 const useStyles = makeStyles(theme => ({
         header: {
             backgroundColor: mainGreen,
+            width: '100%',
             color: 'white',
             display: 'flex',
             flexDirection: 'row',

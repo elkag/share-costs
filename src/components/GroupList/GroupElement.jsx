@@ -7,7 +7,6 @@ import { VIEW_GROUP_PAGE } from '../../config/routes';
 
 const useStyles = makeStyles(theme => ({
     root: { 
-        fontFamily: 'Arial, Helvetica, sans-serif',
         color: grey[900],
         display: 'flex',
         marginTop: '5px',

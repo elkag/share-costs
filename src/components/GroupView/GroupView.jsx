@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { grey } from '@material-ui/core/colors';
-import { makeStyles, Paper, Divider, Button } from '@material-ui/core';
+import { makeStyles, Divider, Button } from '@material-ui/core';
 import UserDetails from './UserDetails';
 import ExpenseContainer from '../Expense/ExpenseContainer';
 import WriteExpenseNameDialog from './WriteExpenseNameDialog';
@@ -10,31 +10,29 @@ import { GroupContext } from '../../pages/GroupPage/GroupPage';
 const useStyles = makeStyles(theme => ({
     
     wrapper: {
-        paddingTop: '20px',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    buttonWrapper: {
+        backgroundColor: grey[50],
+        '&:hover': {
+            backgroundColor: grey[100],
+        }
+    },
+    paper: {
         width: '100%',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-    },
-    expenseWrapper: {
-        zIndex: '1',
-        position: 'absolute',
-        top: '0',
-        bottom: '0',
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        alignItems: 'left',
     },
     groupWrapper: {
         display: 'flex',
         width: '100%',
         paddingTop: '20px',
-    },
-    paper: {
-        width: '60%',
-        alignItems: 'center',
-        alignSelf: 'center',
-        msAlignSelf: 'center',
     },
     titleWrapper: {
         width: '100%',
@@ -67,11 +65,7 @@ const useStyles = makeStyles(theme => ({
         paddingLeft: '10px',
         paddingBottom: '10px',
     },
-    namesWrapper: {
-        width: '100%',
-        marginRight: '10px',
-        
-    },
+    
     namesGrey: {
         color: grey[400],
         width: '90%',
@@ -87,7 +81,16 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'right',
         padding: '2% 2% 2% 2%',
         fontWeight: 'bold',
-    }
+    },
+    expenseWrapper: {
+        zIndex: '1',
+        position: 'absolute',
+        top: '0',
+        bottom: '0',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
 
     
 }));
@@ -157,9 +160,8 @@ const GroupView = () => {
             <div className={classes.wrapper} >
                 { renderExpenseContainer() }
                
-            <div  className={classes.wrapper} ></div>
-                <Paper className={classes.paper} elevation={2}>
-                    <div className={classes.wrapper}>
+                <div className={classes.paper} elevation={2}>
+                    
                         <div className={classes.titleWrapper}>
                             <div className={classes.titleLeft}>{group.name}</div>
                             <div className={classes.titleRight}>
@@ -168,18 +170,11 @@ const GroupView = () => {
                         <Divider />
                     
                         <div  className={classes.description}>{group.description}</div>
-                        <div className={classes.box}>
-                            <div className={classes.groupWrapper}>
-                                
-                                <div className={classes.namesWrapper}>
-                                {
-                                    group.users.map(user => (
-                                        <UserDetails key={user.id} user={user}/>
-                                    ))
-                                } 
-                                </div>
-                            </div>
-                        </div>
+                        {
+                            group.users.map(user => (
+                                <UserDetails key={user.id} user={user}/>
+                            ))
+                        }
                         {group.pendingUsers.length > 0 && <Divider />}
                         <div className={classes.groupWrapper}>
                             <div className={classes.namesWrapper}>
@@ -192,10 +187,10 @@ const GroupView = () => {
                             } 
                             </div>
                         </div>
-                    </div>
+                    
                     <Divider />
                     <div className={classes.total}>Balance: {group.balance}</div>
-                </Paper>
+                </div>
             </div>
     )
     

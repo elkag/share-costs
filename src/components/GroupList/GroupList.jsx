@@ -16,7 +16,6 @@ const useStyles = makeStyles(theme => ({
         paddingTop: '20px',
     },
     content: {
-         maxWidth:'800px',
          width: '100%',
          alignItems: 'center',
     },

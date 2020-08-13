@@ -1,31 +1,36 @@
 import React from 'react';
 import { Button, makeStyles } from '@material-ui/core';
-import { green } from '@material-ui/core/colors';
+import { deepOrange } from '@material-ui/core/colors/';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
+    wrapper: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        paddingTop: '10px'
+    },
     submitButton: {
-        color: theme.palette.getContrastText(green[700]),
-        backgroundColor: green[600],
-        width: '120px',
-        '&:hover': {
-        backgroundColor: green[600],
-        corners: '0dp',
-        width: '120px'
-        },
-    }
-}))
+      color: "white",
+      backgroundColor: deepOrange[400],
+      '&:hover': {
+        backgroundColor: deepOrange[600],
+      },
+    },
+  }));
 
 const StyledButton = (props) => {
 
     const classes = useStyles(makeStyles);
     
     return (
+      <div className={classes.wrapper}>
         <Button variant="contained"  
+                type="submit"
                 onClick={props.onClick} 
                 disabled={props.disabled}
                 className={classes.submitButton} >
                     {props.children}
         </Button>
+      </div>
     )
 
 }

@@ -1,42 +1,32 @@
 import React from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, makeStyles } from '@material-ui/core';
 import UserInGroupView from './UserInGroupView';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { green, red } from '@material-ui/core/colors';
+import { textsGreen, textsRed } from '../../styles/colors';
+import { grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
-    balancePaper: {
-        width: '60px',
-        height: '20px',
-        borderRadius: '3px',
-        color: 'white',
-        backgroundColor: red[400],
-        fontWeight: 'bold',
-        fontSize: '9pt',
-        textAlign: 'center',
-        padding: '6px',
+    wrapper: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
-    balancePaperGreen: {
-        width: '60px',
-        height: '20px',
-        borderRadius: '3px',
-        color: 'white',
-        backgroundColor: green[400],
-        fontWeight: 'bold',
-        fontSize: '9pt',
-        textAlign: 'center',
-        paddingTop: "6px",
-        paddingBottom: "6px",
-        padding: '6px',
+    accordion: {
+        backgroundColor: grey[50],
+        '&:hover': {
+            backgroundColor: grey[100],
+        }
     },
-    
+    red: {
+        color: textsRed,
+        textAlign: 'right',
+    },
+    green: {
+        color: textsGreen,
+        textAlign: 'right',
+    },
     names: {
-        width: '90%',
-        alignSelf: 'center',
-        marginRight: '20px',
-        textAlign: 'left',
         fontWeight: "bold",
-        fontSize: "11pt"
     },
 }));
 
@@ -47,17 +37,19 @@ const UserDetails = ({user}) => {
     
     return (
         <Accordion>
-            <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
+            <AccordionSummary 
+                className={classes.accordion}
                 aria-controls="panel1a-content"
                 id="panel1a-header"
             > 
-                <div className={classes.names}>{user.firstName}&nbsp;{user.lastName}</div> 
-                        {(user.balance < 0) ?
-                            <div className={classes.balancePaper}>{Number(user.balance).toFixed(2)}</div>
-                            :
-                            <div className={classes.balancePaperGreen}>{Number(user.balance).toFixed(2)}</div>
-                        }
+                <div className={classes.wrapper}>
+                    <div className={classes.names}>{user.firstName}&nbsp;{user.lastName}</div> 
+                    {(user.balance < 0) ?
+                        <div className={classes.red}>{Number(user.balance).toFixed(2)}</div>
+                        :
+                        <div className={classes.green}>{Number(user.balance).toFixed(2)}</div>
+                    }
+                </div>
             </AccordionSummary>
             <AccordionDetails> 
                 <UserInGroupView 
