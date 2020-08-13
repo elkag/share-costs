@@ -1,7 +1,7 @@
 import React from 'react';
 // config
 import { setSessionCookie, getSessionCookie } from '../../config/session';
-import { HOME_PAGE, REGISER_PAGE } from '../../config/routes';
+import { HOME_PAGE, REGISTER_PAGE } from '../../config/routes';
 // context
 import { UserContext } from '../../contexts/userContext';
 // API
@@ -58,13 +58,13 @@ const LoginPage = (props) => {
         setLoading(true);
         setError(false);
         
-        const responce = await loginApi.logIn(username, password);
+        const response = await loginApi.logIn(username, password);
         
-        if(responce.error) {
-            setError(responce.message)
+        if(response.error) {
+            setError(response.message)
         } else {
-          setSession( {user: responce.user} );
-          setSessionCookie(responce);
+          setSession( {user: response.user} );
+          setSessionCookie(response);
           console.log(getSessionCookie("session"));
           props.history.push(HOME_PAGE);
         }
@@ -75,7 +75,7 @@ const LoginPage = (props) => {
       <div className={classes.pageWrapper}>
         <LoginForm onSubmit={logIn} isLoading={loading} error={error}/>
         <div className={classes.infoText}>You have not account yet?</div>
-        <Link to={REGISER_PAGE} className={classes.link}>Click here to create one</Link>
+        <Link to={REGISTER_PAGE} className={classes.link}>Click here to create one</Link>
       </div>
     )
 }

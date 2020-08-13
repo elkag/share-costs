@@ -5,4 +5,5 @@ export const LOGOUT_SERVICE_URL = API_PREFIX + '/users/logout';
 export const CHECK_USERNAME_SERVICE_URL = API_PREFIX + '/users/check-username';
 export const GET_GROUPS_URL = API_PREFIX + '/groups/get-all';
 export const GET_GROUP_URL = API_PREFIX + '/groups/get';
-export const NEW_EXPENSE_API = API_PREFIX + '/payment/make-payment'
+export const NEW_EXPENSE_API = API_PREFIX + '/payment/make-payment';
+export const CREATE_GROUP_API = API_PREFIX + '/groups/create'

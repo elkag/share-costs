@@ -5,7 +5,7 @@ import { getGroupsApi } from '../../api/services/getGroupsApi';
 import { SERVER_ERROR } from '../../config/systemMessages';
 import { HOME_PAGE } from '../../config/routes';
 import Loader from '../../components/common/Loader';
-import GroupList from '../../components/Groups/GroupList'
+import GroupList from '../../components/GroupList/GroupList'
 
 const MyGroupsPage = () => {
 

@@ -47,7 +47,7 @@ const GroupList = ({groups}) => {
         })
       }
 
-      const getSelectedGroups = () => {
+    const getSelectedGroups = () => {
         
         if(!groups)
             return null;
@@ -56,27 +56,27 @@ const GroupList = ({groups}) => {
                 return groups.filter(group => group.status.toUpperCase() === filterTypes[filter]);
             }
 
-        return [...groups];
+        return Object.assign(groups);
       }
 
     return (
         <Fade timeout='500' in={true}>
         <div className={classes.wrapper}>
             <div className={classes.content}>
-            <Paper >
-            <Tabs 
-                value={filter}
-                indicatorColor="primary"
-                textColor="primary"
-                onChange={handleChange}
-            >
-                <Tab label="All" />
-                <Tab label="Active" />
-                <Tab label="Closed" />
-            </Tabs>
-        </Paper>
-            { renderGroups() }
-        </div>
+                <Paper >
+                    <Tabs 
+                        value={filter}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        onChange={handleChange}
+                    >
+                        <Tab label="All" />
+                        <Tab label="Active" />
+                        <Tab label="Closed" />
+                    </Tabs>
+                </Paper>
+                { renderGroups() }
+            </div>
         </div>
         </Fade>
     )

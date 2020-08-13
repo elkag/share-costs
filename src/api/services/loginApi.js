@@ -38,8 +38,8 @@ export const loginApi = {
                     return responseJson;
                 }
             )*/
-        }).then(responce => {
-            return responce;
+        }).then(response => {
+            return response;
         })
   }
 }
