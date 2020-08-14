@@ -1,7 +1,7 @@
 import React from 'react';
-import { Accordion, AccordionSummary, AccordionDetails, makeStyles } from '@material-ui/core';
+import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography } from '@material-ui/core';
 import UserInGroupView from './UserInGroupView';
-import { textsGreen, textsRed } from '../../styles/colors';
+import { textsGreen, textsRed, textsGrey } from '../../styles/colors';
 import { grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        color: textsGrey
     },
     accordion: {
         backgroundColor: grey[50],
@@ -20,10 +21,12 @@ const useStyles = makeStyles(theme => ({
     red: {
         color: textsRed,
         textAlign: 'right',
+        fontWeight: 'bold'
     },
     green: {
         color: textsGreen,
         textAlign: 'right',
+        fontWeight: 'bold'
     },
     names: {
         fontWeight: "bold",
@@ -43,11 +46,11 @@ const UserDetails = ({user}) => {
                 id="panel1a-header"
             > 
                 <div className={classes.wrapper}>
-                    <div className={classes.names}>{user.firstName}&nbsp;{user.lastName}</div> 
+                    <Typography className={classes.names}>{user.firstName}&nbsp;{user.lastName}</Typography> 
                     {(user.balance < 0) ?
-                        <div className={classes.red}>{Number(user.balance).toFixed(2)}</div>
+                        <Typography className={classes.red}>{Number(user.balance).toFixed(2)}</Typography>
                         :
-                        <div className={classes.green}>{Number(user.balance).toFixed(2)}</div>
+                        <Typography className={classes.green}>{Number(user.balance).toFixed(2)}</Typography>
                     }
                 </div>
             </AccordionSummary>

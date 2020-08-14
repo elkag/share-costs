@@ -7,7 +7,7 @@ import ControlsContainer from './ControlsContainer';
 import TitledHeader from './Title';
 import { green } from '@material-ui/core/colors';
 import { INPUT_TYPE } from './constants/constants';
-import * as utils from './utils/calcs';
+import * as utils from './utils/calculations';
 import * as converter from './utils/expenseConverter';
 import { sendExpenseApi } from '../../api/services/sendExpenseApi';
 import { SERVER_ERROR } from '../../config/systemMessages';
@@ -152,7 +152,6 @@ const ExpenseContainer = ({description, submit, close}) => {
 
         const updated = utils.recalculateOnChangeUserAmount(expense, user, amount)
         setExpense(updated);
-        console.log(JSON.stringify(updated))
     }
 
     const getAmountPercentage = (user) => {

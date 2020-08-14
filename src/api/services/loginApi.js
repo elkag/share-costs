@@ -19,8 +19,6 @@ export const loginApi = {
                     throw response;
                 }
             ).then( json => {
-                    console.log(json);
-                    console.log("message = " + json);
                     return json;
                 }
             ).catch( error => {
@@ -29,15 +27,10 @@ export const loginApi = {
                     // {message: "..."}
                     return { error: true, message: error.message }
                 }
+                
                 console.log(error)
                 return { error: true, message: "Wrong username or password" }
                 
-                /*return error.clone().json().then((responseJson) => {
-                    console.log(responseJson);
-                    console.log("message = " + responseJson.message);
-                    return responseJson;
-                }
-            )*/
         }).then(response => {
             return response;
         })

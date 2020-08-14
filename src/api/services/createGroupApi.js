@@ -38,7 +38,6 @@ export const createGroupApi = {
                 }
             )
             .then( json => {
-                console.log("message = " + json);
                 return json;
             }
         ).catch( error => {
@@ -47,8 +46,6 @@ export const createGroupApi = {
                     return { error: true, message: error.message }
                 }
                 return error.json().then((responseJson) => {
-                    console.log(responseJson);
-                    console.log("message = " + responseJson.message);
                     return responseJson;
                 }
             )

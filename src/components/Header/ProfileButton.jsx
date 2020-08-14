@@ -39,7 +39,6 @@ const ProfileButton = ({logOutHandler}) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
-        console.log(event.currentTarget)
         setAnchorEl(document.getElementById('menu_container'));
     };
   

@@ -26,7 +26,7 @@ const StyledButton = (props) => {
         <Button variant="contained"  
                 type="submit"
                 onClick={props.onClick} 
-                disabled={props.disabled}
+                disabled={props.disabled || props.disabled === "true"}
                 className={classes.submitButton} >
                     {props.children}
         </Button>

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { makeStyles, Fade, Switch } from '@material-ui/core';
+import { makeStyles, Switch } from '@material-ui/core';
 import * as utils from './utils/selectFieldOnFocus';
 
 
@@ -36,7 +36,6 @@ const ControlsContainer = ({amount, onChangeTotal, checked, onChangeInputType}) 
     const classes = useStyles(makeStyles);
 
     useEffect(() => {
-        console.log('New amount: ' + amount)
         if(amount === 0) {
             utils.selectTarget(document.getElementById("text-amount"));
         }
@@ -82,9 +81,7 @@ const ControlsContainer = ({amount, onChangeTotal, checked, onChangeInputType}) 
     }
 
     return (
-        <Fade in={true}  timeout={600}>
-            { render()}
-        </Fade>
+        render()
     )
 }
 

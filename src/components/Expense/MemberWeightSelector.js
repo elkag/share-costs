@@ -59,8 +59,8 @@ const MemberWeightSelector = ({value, onChange, disabled}) => {
                     onChange={handleChange}
                 >
                 {
-                    weights.map(weight => (
-                        <MenuItem value={weight.value}>{weight.value}</MenuItem>
+                    weights.map((weight, index) => (
+                        <MenuItem key={index} value={weight.value}>{weight.value}</MenuItem>
                     ))
                 }
                 </Select>

@@ -24,6 +24,5 @@ export const convertToRequest = (group, expense) => {
         return { amount: current.amount.value , id: "", userId: current.id, weight: current.weight }
     })
 
-    console.log(request)
     return request;
 }

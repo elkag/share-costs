@@ -40,7 +40,7 @@ const GroupPage = () => {
 
     return <GroupContext.Provider value={{group, getGroup}}>
               <Loader loading={loading} error={error} />
-              {!loading && <GroupView />}
+              {!loading && <GroupView onUpdate={setGroup} />}
           </GroupContext.Provider>
   }
   return (

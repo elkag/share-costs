@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../../contexts/userContext';
-import { makeStyles, Fade } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import MemberAmountTextField from './MemberAmountTextField';
 import MemberNameButton from './MemberNameButton';
 import MemberWeightSelector from './MemberWeightSelector';
@@ -77,9 +77,7 @@ const ActiveMember = ({ user,
     }
 
     return (
-        <Fade in={true}  timeout={600}>
-            { renderUser(user)}
-        </Fade>
+        renderUser(user)
     )
 }
 

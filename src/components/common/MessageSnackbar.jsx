@@ -5,7 +5,6 @@ import ErrorIcon from '@material-ui/icons/Error';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
-import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
     error: {

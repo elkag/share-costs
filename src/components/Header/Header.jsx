@@ -5,6 +5,7 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import GroupIcon from '@material-ui/icons/Group';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import AddIcon from '@material-ui/icons/Add';
+import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import { useHistory } from 'react-router-dom';
 import { deleteSessionCookie } from '../../config/session';
 import LeftMenu from '../LeftMenu/LeftMenu';
@@ -13,7 +14,7 @@ import LoginButton from './LoginButton';
 
 // Config
 import { UserContext } from '../../contexts/userContext';
-import { MY_GROUPS_PAGE, CREATE_GROUP_PAGE, LOGIN_PAGE } from '../../config/routes';
+import { MY_GROUPS_PAGE, CREATE_GROUP_PAGE, LOGIN_PAGE, ABOUT_PAGE } from '../../config/routes';
 
 // Styles
 import { makeStyles } from '@material-ui/core';
@@ -69,6 +70,9 @@ const Header = () => {
         history.push(MY_GROUPS_PAGE);
     }
 
+    const onAboutThisApp = () => {
+        history.push(ABOUT_PAGE);
+    }
     const menuList = [
         {
             key: 'My groups',
@@ -81,6 +85,12 @@ const Header = () => {
             onClick: onCreateNewGroup,
             position: 'top'
         },{
+            key: 'About this app',
+            icon: <InsertEmoticonIcon />,
+            onClick: onAboutThisApp,
+            position: 'top'
+        },
+        {
             key: 'Logout',
             icon: <InboxIcon />,
             onClick: logOut,

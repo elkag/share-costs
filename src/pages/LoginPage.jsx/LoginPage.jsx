@@ -15,7 +15,7 @@ import { blue, red } from '@material-ui/core/colors';
 const useStyles = makeStyles(theme => ({
   pageWrapper: {
       width: '100%',
-      height: '100%',
+      minHeight: '100%',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center'
@@ -69,7 +69,6 @@ const LoginPage = (props) => {
         } else {
           setSession( {user: response.user} );
           setSessionCookie(response);
-          console.log(getSessionCookie("session"));
           props.history.push(HOME_PAGE);
         }
         setLoading(false);

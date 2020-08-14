@@ -1,6 +1,6 @@
 import React from 'react';
 import GroupElement from './GroupElement';
-import { makeStyles, Tabs, Tab, Paper, Fade } from '@material-ui/core';
+import { makeStyles, Tabs, Tab, Paper } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
@@ -41,7 +41,7 @@ const GroupList = ({groups}) => {
         const selectedGroups = getSelectedGroups();
         return selectedGroups && selectedGroups.map((group, index) => {
           return (
-                <GroupElement key={group._id} group={group} />
+                <GroupElement key={index} group={group} />
           )
         })
       }
@@ -59,7 +59,6 @@ const GroupList = ({groups}) => {
       }
 
     return (
-        <Fade timeout='500' in={true}>
         <div className={classes.wrapper}>
             <div className={classes.content}>
                 <Paper >
@@ -77,7 +76,6 @@ const GroupList = ({groups}) => {
                 { renderGroups() }
             </div>
         </div>
-        </Fade>
     )
 }
 

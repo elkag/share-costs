@@ -41,7 +41,7 @@ const MyGroupsPage = () => {
     return (
       <Fragment>
         <Loader loading={loading} error={error} />
-          <GroupList groups={groups} />
+        <GroupList groups={groups} />
       </Fragment>
     )
    
