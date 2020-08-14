@@ -1,65 +1,76 @@
 import React, { useState, useContext } from 'react';
 import { grey } from '@material-ui/core/colors';
-import { makeStyles, Paper, Divider, Button } from '@material-ui/core';
+import { makeStyles, Divider, Typography, IconButton, Button } from '@material-ui/core';
 import UserDetails from './UserDetails';
 import ExpenseContainer from '../Expense/ExpenseContainer';
 import WriteExpenseNameDialog from './WriteExpenseNameDialog';
+import CloseIcon from '@material-ui/icons/Close';
 import { GroupContext } from '../../pages/GroupPage/GroupPage';
-
+import { textsRed, textsGrey } from '../../styles/colors';
+import SearchUserComponent from '../Search/SearchUserComponent';
+import { addUserToGroupApi } from '../../api/services/addUserToGroupApi';
+import { removePendingUserApi } from '../../api/services/removePendingUserApi';
+import Loader from '../common/Loader';
+import { SERVER_ERROR } from '../../config/systemMessages';
+import EuroSymbolIcon from '@material-ui/icons/EuroSymbol';
 
 const useStyles = makeStyles(theme => ({
     
     wrapper: {
-        paddingTop: '20px',
         width: '100%',
-        height: '100%',
+        minHeight: '100%',
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: textsGrey
     },
-    expenseWrapper: {
-        zIndex: '1',
-        position: 'absolute',
-        top: '0',
-        bottom: '0',
+    buttonWrapper: {
+        marginLeft: '10px',
+        marginBottom: '10px',
+        
+    },
+    iconButton: {
+        color: textsRed,
+        
+    },
+    removeIcon: {
+       color: textsRed,
+       width: 12,
+       height: 12
+    },
+    paper: {
         width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        minHeight: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'left',
+        maxWidth: '600px',
+        marginTop: '20px',
     },
     groupWrapper: {
         display: 'flex',
         width: '100%',
-        paddingTop: '20px',
-    },
-    paper: {
-        width: '60%',
-        alignItems: 'center',
-        alignSelf: 'center',
-        msAlignSelf: 'center',
+        paddingTop: '20px'
+       
     },
     titleWrapper: {
-        width: '100%',
         display: 'flex',
-    }, 
-    titleLeft: {
-        alignSelf: 'flex-end',
-        height: '30px',
-        padding: '1% 1% 1% 2%',
-        alignItems: 'center',
-        fontWeight: 'bold',
-        textAlign: 'left',
-        width: '50%',
-    }, 
-    titleRight: {
-        alignSelf: 'flex-start',
-        height: '30px',
-        padding: '1% 2% 1% 1%',
-        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
         textAlign: 'right',
-        width: '50%',
+        margin: '10px',
+        height: 60
+    },
+    title: {
+        fontWeight: 'bold'
+    },
+    total: {
+        color: textsRed
     },
     description: {
         fontSize: '10pt',
-        padding: '1% 2% 2% 2%',
         textAlign: 'left',
         paddingBottom: '30px'
     },
@@ -67,32 +78,33 @@ const useStyles = makeStyles(theme => ({
         paddingLeft: '10px',
         paddingBottom: '10px',
     },
-    namesWrapper: {
-        width: '100%',
-        marginRight: '10px',
-        
-    },
     namesGrey: {
-        color: grey[400],
-        width: '90%',
-        alignSelf: 'flex-start',
-        marginRight: '20px',
-        marginLeft: '28px',
-        paddingTop: '3px',
-        paddingLeft: '3px',
-        paddingBottom: '20px',
-        textAlign: 'left',
+        paddingLeft: '16px',
+        color: grey[600],
     },
-    total: {
-        textAlign: 'right',
-        padding: '2% 2% 2% 2%',
-        fontWeight: 'bold',
+    expenseWrapper: {
+        zIndex: 11,
+        position: 'absolute',
+        top: '0',
+        bottom: '0',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    pendingUsersWrapper: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignContent: 'center',
+        alignItems: 'center',
+        textAlign: 'left',
+        marginRight: '20px',
+        paddingTop: '20px'
     }
-
     
 }));
 
-const GroupView = () => {
+const GroupView = ({onUpdate}) => {
 
     const GROUP_VIEW = "GROUP_VIEW";
     const EXPENSE_VIEW = "EXPENSE_VIEW";
@@ -106,9 +118,10 @@ const GroupView = () => {
     const [state, setState] = useState(GROUP_VIEW);
     const [expenseDescription, setExpenseDescription] = useState('');
 
-    const openExpenseContainer = (event) => {
-        console.log(event.target)
-        event.preventDefault();
+    const [loading, setLoading] = React.useState(false); 
+    const [error, setError] = React.useState('');
+
+    const openExpenseContainer = () => {
         setState(DIALOG_VIEW);
     }
 
@@ -130,8 +143,7 @@ const GroupView = () => {
         setState(GROUP_VIEW);
     }
 
-    const renderExpenseContainer = () => {
-        console.log(state);
+    const renderPopper = () => {
         if(state === EXPENSE_VIEW) {
             return (
                 <div className={classes.expenseWrapper}>
@@ -149,53 +161,86 @@ const GroupView = () => {
                 onSubmit={onSubmitDescriptionDialog} 
                 onCancel={onCancelDescriptionDialog} />
         }
+        
         return null;
+    }
+
+    /**
+     * @param {*} userId
+     */
+    const addToGroup = async (userId) => {
+        setLoading(true);
+        const response = await addUserToGroupApi.addUser(group.id, userId);
+        setLoading(false);
+        if(response.error){
+            setError(SERVER_ERROR);
+        } else {
+            onUpdate(response);
+        }
+    }
+
+    const removePendingUser = async (user) => {
+        setLoading(true);
+        const response = await removePendingUserApi.removeUser(group.id, user.id);
+        setLoading(false);
+        if(response.error){
+            setError(SERVER_ERROR);
+        } else {
+            onUpdate(response);
+        }
+        
+    }
+
+
+    const addToGroupHandler = (userId) => {
+        addToGroup(userId)
+    }
+
+    const removeUser = (userId) => {
+        removePendingUser(userId);
     }
 
     return ( 
             (!group)  ? <div /> :
             <div className={classes.wrapper} >
-                { renderExpenseContainer() }
-               
-            <div  className={classes.wrapper} ></div>
-                <Paper className={classes.paper} elevation={2}>
-                    <div className={classes.wrapper}>
+                <Loader loading={loading} error={error} />
+                { renderPopper() }
+                
+                <div className={classes.paper} elevation={2}>
                         <div className={classes.titleWrapper}>
-                            <div className={classes.titleLeft}>{group.name}</div>
-                            <div className={classes.titleRight}>
-                                <Button onClick={openExpenseContainer}>New Expense</Button></div>
+                            <Typography className={classes.title}>{group.name}</Typography>
+                            <Button onClick={() => openExpenseContainer()}>
+                                <EuroSymbolIcon />
+                                New Expense
+                            </Button>
                         </div>
                         <Divider />
-                    
-                        <div  className={classes.description}>{group.description}</div>
-                        <div className={classes.box}>
-                            <div className={classes.groupWrapper}>
-                                
-                                <div className={classes.namesWrapper}>
-                                {
-                                    group.users.map(user => (
-                                        <UserDetails key={user.id} user={user}/>
-                                    ))
-                                } 
-                                </div>
-                            </div>
+                        <div className={classes.titleWrapper}>
+                            <SearchUserComponent onClick={addToGroupHandler}/>
+                            <Typography className={classes.title}>Balance: {group.balance.toFixed(2)}</Typography>
                         </div>
+                        
+                        {
+                            group.users.map((user, index) => (
+                                <UserDetails key={index} user={user}/>
+                            ))
+                        }
                         {group.pendingUsers.length > 0 && <Divider />}
-                        <div className={classes.groupWrapper}>
-                            <div className={classes.namesWrapper}>
-                            {
-                                group.pendingUsers.map(user => (
-                                        <div  key={user.id} className={classes.namesGrey}>
-                                            {user.firstName}&nbsp;{user.lastName}
-                                        </div>
-                                ))
-                            } 
-                            </div>
-                        </div>
-                    </div>
-                    <Divider />
-                    <div className={classes.total}>Balance: {group.balance}</div>
-                </Paper>
+                        {
+                            group.pendingUsers.map(user => (
+                                <div className={classes.pendingUsersWrapper}>
+                                    <IconButton 
+                                        onClick={() => removeUser(user)} 
+                                        className={classes.removeIcon}>
+                                        <CloseIcon />
+                                    </IconButton>
+                                    <div key={user.id} className={classes.namesGrey}>
+                                        {user.firstName}&nbsp;{user.lastName}
+                                    </div>
+                                </div>
+                            ))
+                        } 
+                </div>
             </div>
     )
     

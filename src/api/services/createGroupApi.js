@@ -1,16 +1,33 @@
-import { GET_GROUPS_URL } from "./config/config";
+import { CREATE_GROUP_API } from "./config/config";
 import { getSessionCookie } from "../../config/session";
 
-export const getGroupsApi = {
-    getGroups: async () => {
-            return fetch(GET_GROUPS_URL,
+/**
+ * {
+    "name": "string",
+    "description": "string"
+    "userIds": []
+    }
+ */
+export const createGroupApi = {
+    createGroup: async (
+                {
+                    name,
+                    description,
+                    userIds
+                }
+            ) => {
+            return fetch(CREATE_GROUP_API,
                 {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + getSessionCookie().jwtToken
                     },
-                    
+                    body: JSON.stringify({
+                        name,
+                        description,
+                        userIds,
+                    })
                 }
             )
             .then( response => {
@@ -26,7 +43,6 @@ export const getGroupsApi = {
         ).catch( error => {
                 console.log("Error occurred");
                 if (error instanceof Error) {
-                    // {message: "..."}
                     return { error: true, message: error.message }
                 }
                 return error.json().then((responseJson) => {

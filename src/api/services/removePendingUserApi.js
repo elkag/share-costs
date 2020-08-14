@@ -1,16 +1,16 @@
-import { GET_GROUPS_URL } from "./config/config";
+import { REMOVE_PENDING_USER_URL } from "./config/config";
 import { getSessionCookie } from "../../config/session";
 
-export const getGroupsApi = {
-    getGroups: async () => {
-            return fetch(GET_GROUPS_URL,
+export const removePendingUserApi = {
+    removeUser: async (groupId, userId) => {
+            return fetch(REMOVE_PENDING_USER_URL,
                 {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded',
                         'Authorization': 'Bearer ' + getSessionCookie().jwtToken
                     },
-                    
+                    body: `userId=${userId}&groupId=${groupId}`
                 }
             )
             .then( response => {
@@ -26,7 +26,6 @@ export const getGroupsApi = {
         ).catch( error => {
                 console.log("Error occurred");
                 if (error instanceof Error) {
-                    // {message: "..."}
                     return { error: true, message: error.message }
                 }
                 return error.json().then((responseJson) => {

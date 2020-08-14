@@ -1,57 +1,31 @@
 import React from 'react';
-import { makeStyles, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
+import { textsRed, textsGreen } from '../../styles/colors';
 
 const useStyles = makeStyles((theme) => ({
-    button: { 
+   
+    wrapper: { 
         display: 'flex',
-        flexDirection: 'column',
-        fontFamily: 'Arial, Helvetica, sans-serif',
-        border: "1px solid",
-        borderColor:  grey[100],
-        borderRadius: '5px',
-        backgroundColor: grey[50],
-        width: '100%',
-        textTransform: "none",
-        textAlign: 'center',
-        '&:hover': {
-            backgroundColor: grey[100],
-        }
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        width: '100%'
     },
-    wrapper: {
-        width: '100%',
+    labels: {
+        width: '100px',
         display: 'flex',
         flexDirection: "column",
-        alignItems: "flex-end", 
-        fontSize: "11pt",
-    },
-    rowWrapper: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: "row",
-        alignItems: "right",
-        
-    },
-    label: {
-        width: "100%",
-        alignSelf: "left",
-        textAlign:"right",
-        paddingRight: "10px",
-        
+        alignItems: "flex-end",
     },
     amountRed: {
-        width: "10%",
+        width:'100px',
         textAlign:"right",
-        color: "red",
-        fontWeight: "bold",
-        paddingRight: "20px"
+        color: textsRed,
     },
     amountGreen: {
-        width: "10%",
+        width:'100px',
         textAlign:"right",
-        color: "green",
-        fontWeight: "bold",
-        paddingRight: "20px"
+        color: textsGreen,
     }
 }));
 
@@ -60,34 +34,30 @@ const UserInGroupView = ({spending, costs, balance}) => {
     const classes = useStyles(makeStyles);
 
     return(
-        <Button className={classes.button}>
-            <div className={classes.wrapper}>
-                <div className={classes.rowWrapper}>
-                    <div className={classes.label}>
-                        Spending: 
-                    </div>
-                    <div className={classes.amountRed}>
-                        {spending}
-                    </div>
+        <div className={classes.wrapper}>
+            <div className={classes.labels}>
+                <div className={classes.label}>
+                    Spending: 
                 </div>
-                <div className={classes.rowWrapper}>
-                    <div className={classes.label}>
-                        Costs: 
-                    </div>
-                    <div className={classes.amountGreen}>
-                        {costs}
-                    </div>
+                <div className={classes.label}>
+                    Costs: 
                 </div>
-                <div className={classes.rowWrapper}>
-                    <div className={classes.label} >
-                        Balance: 
-                    </div>
-                    <div className={balance < 0 ? classes.amountRed : classes.amountGreen}>
-                        {balance}
-                    </div>
+                <div className={classes.label} >
+                    Balance: 
                 </div>
             </div>
-        </Button>
+            <div className={classes.balance} >
+                <div className={classes.amountRed}>
+                    {spending}
+                </div>
+                    <div className={classes.amountGreen}>
+                    {costs}
+                </div>
+                <div className={balance < 0 ? classes.amountRed : classes.amountGreen}>
+                    {balance}
+                </div>
+            </div>
+        </div>
     )
 }
 

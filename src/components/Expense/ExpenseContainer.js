@@ -7,12 +7,13 @@ import ControlsContainer from './ControlsContainer';
 import TitledHeader from './Title';
 import { green } from '@material-ui/core/colors';
 import { INPUT_TYPE } from './constants/constants';
-import * as utils from './utils/calcs';
+import * as utils from './utils/calculations';
 import * as converter from './utils/expenseConverter';
 import { sendExpenseApi } from '../../api/services/sendExpenseApi';
 import { SERVER_ERROR } from '../../config/systemMessages';
 import Loader from '../common/Loader';
 import { GroupContext } from '../../pages/GroupPage/GroupPage';
+import StyledButton from '../common/StyledButton';
 
 const useStyles = makeStyles(theme => ({
     wrapper: {
@@ -55,16 +56,6 @@ const useStyles = makeStyles(theme => ({
     button: {
         paddingRight: "20px",
         paddingTop: "10px",
-    },
-    submitButton: {
-        color: theme.palette.getContrastText(green[700]),
-        backgroundColor: green[600],
-        width: '120px',
-        '&:hover': {
-        backgroundColor: green[600],
-        corners: '0dp',
-        width: '120px'
-        },
     }
 }));
 
@@ -161,7 +152,6 @@ const ExpenseContainer = ({description, submit, close}) => {
 
         const updated = utils.recalculateOnChangeUserAmount(expense, user, amount)
         setExpense(updated);
-        console.log(JSON.stringify(updated))
     }
 
     const getAmountPercentage = (user) => {
@@ -273,10 +263,12 @@ const ExpenseContainer = ({description, submit, close}) => {
                     { renderActiveMembers() }
                     <div className={classes.buttonWrapper}>
                         <div className={classes.button} >
-                            <Button variant="contained" 
-                            onClick={onSubmit} 
-                            disabled={!(expense.total > 0)}
-                            className={classes.submitButton} >Submit</Button>
+                            <StyledButton 
+                                onClick={onSubmit} 
+                                disabled={!(expense.total > 0)}>
+                                
+                                Submit
+                            </StyledButton>
                         </div>
                     </div>
                     { renderInactiveMembers() }

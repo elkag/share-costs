@@ -1,31 +1,28 @@
 import React from 'react';
 import { IconButton, makeStyles } from '@material-ui/core';
+import { mainGreen } from '../../styles/colors'
 
 const useStyles = makeStyles(theme => ({
     iconWrapper: {
-        width: '92px',
+        paddingRight: '16px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        marginRight: '16px',
-        marginLeft: '16px',
-        marginBottom: '5px',
-        spaceBetween: "30px",
     },
     icon: {
-        color: "white", 
-        backgroundColor: '#4685ce',
+        color: mainGreen, 
+        backgroundColor: '#fff',
         spaceBetween: '16px',
         '&:hover': {
-            backgroundColor: '#2963a5'
+            backgroundColor: '#fff'
           }
     },
     label: {
         marginTop: '10px',
-        color: "white",
+        color: "#fff",
         fontSize: '9pt',
-        fontStyle: 'italic',
-        fontFamily: 'Arial, Helvetica, sans-serif',
+        fontWeight: 'bold',
+
     },
 }
 ));
@@ -39,9 +36,6 @@ const HeaderIcon = (props) => {
             <IconButton className={classes.icon} onClick={props.onClick}>
                 {props.children}
             </IconButton>
-            <div className={classes.label}>
-                {props.label}
-            </div>
         </div>
     )
 }

@@ -15,6 +15,6 @@ export const getSessionCookie = () => {
   }
 };
 
-export const deleteSessionCoockie = () => {
+export const deleteSessionCookie = () => {
   Cookies.remove("session");
 }
