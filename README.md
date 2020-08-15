@@ -1,68 +1,186 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+﻿Contents
 
-## Available Scripts
+Описание	1
+Public part	1
+Login Page	1
+Register Page	2
+Home Page	2
+Private part	2
+My Groups Page	2
+Group Page	4
 
-In the project directory, you can run:
 
-### `yarn start`
+Описание
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Това приложеине е калкулатор, който може да се ползва от групи от хора, които са отделни домакинсква, но имат някакви общи разходи. Те може да са приятели отишли заедно на почивка, съквартиранти и др... 
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Всеки потребител може да създаде група и да покани други потребители да участват в нея. Когато един член на групата плаща нещо, което се ползва и от други, сумата от този разход автоматично или ръчно се преразпределя от него към балансите на останалите от групата. Начините за преразпределяне на сумата са
+• пропорционално  - избират се членовете на групата, които ще ползват разхода. На всеки от тях може да се избере различна тежест с която да участват в разхода. 
+• ръчно - избират се членовете на групата, които ще ползват разхода и различна сума за всеки от тях.
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Public part
 
-### `yarn build`
+Login Page
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Съдържа форма със съответните полета за username и password. При успешен логин BE връща jwt token.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Register Page
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Съдържа форма със съответните полета.
 
-### `yarn eject`
+Home Page
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Ако се достъпи от логнат потребител, редиректва към My Groups Page.  Ако се достъпи от потрел, който не е логнат ще показва някакво описание на приложението. В момента не съдържа нищо.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Private part
 
-## Learn More
+Menu
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+My Groups Page
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Съдържа списък  със всички групи, в които потребителят участва.
 
-### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-### Analyzing the Bundle Size
+Клик върху група от списъка води до Group Page
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
-### Making a Progressive Web App
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-### Advanced Configuration
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-### Deployment
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+Спъсъкът се получава от Server API като JSON съдържащ следните обекти:
 
-### `yarn build` fails to minify
+{
+  "balance": 0,
+  "date": "2020-08-15T06:17:08.228Z",
+  "description": "string",
+  "id": "string",
+  "name": "string",
+  "owner": {
+    "balance": 0,
+    "costs": 0,
+    "email": "string",
+    "firstName": "string",
+    "id": "string",
+    "lastName": "string",
+    "password": "string",
+    "spending": 0,
+    "username": "string"
+  },
+  "pendingUsers": [
+    {
+      "balance": 0,
+      "costs": 0,
+      "email": "string",
+      "firstName": "string",
+      "id": "string",
+      "lastName": "string",
+      "password": "string",
+      "spending": 0,
+      "username": "string"
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+    }
+  ],
+  "status": "string",
+  "users": [
+    {
+      "balance": 0,
+      "costs": 0,
+      "email": "string",
+      "firstName": "string",
+      "id": "string",
+      "lastName": "string",
+      "password": "string",
+      "spending": 0,
+      "username": "string"
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+Group Page
+
+
+
+
+
+
+Под списъка с членове на групата са добавените потребители, които все още не са се съгласили да участват. Те нямат баланс и не участват в общите разходи. Могат да откажат да участват, кликайки бутона [+] или да приемат, кликайки [-]. 
+
+Добавяне на нов участник става от търсачката горе в ляво.
+
+
+
+
+
+
+
+
+При промяна на стойността в полето BE връща масив от
+[
+  {
+    "email": "string",
+    "firstName": "string",
+    "id": "string",
+    "lastName": "string",
+    "password": null
+    "username": "string"
+  }
+]
+
+Рикуест се изпраща само, когато дължината на стринга е точно 2 символа. След това резултатите са резултат филтрирането на получения от сървъра резултат.
+Бутона [NEW EXPENSE] отвря прозорец, в който се въвежда новия разход:
+
+
+
+
+Избират се участници, които ще участват в този разход.
+
+Методът на изчисление може да е Proportional или  Manual.
+
+Proportional – могат да се променят само тежестите на всеки участник в разхода. Сумата за всеки от тях се смята въз основа на тежестите.
+
+Manual – тежестите са недостъпни. Сумите се пишат ръчно във всяко поле. При промяна на сумата в полето, тези които не са променени още се пресмятат автоматично. Ако потребителят иска да промени и последното поле, останалите се преизчисляват.
+
+Изчисленията се извършват само в клиентската част. BE проверява единствено дали общата сума се различава с по-малко от 1 стотинка от сумата разпределена на всеки участник. Ако това не е така не записва разхода.
+
+Request-a изглежда така:
+
+{
+   "groupId":"2b45ade7-5298-4d2f-925c-518e8a8bbeac",
+   "total":"100",
+   "type":"PROPORTIONAL",
+   "description":"description",
+   "users":[
+      {
+         "id":"a563ee8b-0c22-4f9c-99c0-0efba0939f9a",
+         "weight":2,
+         "amount":100
+      },
+      {
+         "id":"68104d72-bde7-44f6-a99e-da6f271ffd1b",
+         "weight":1,
+         "amount":100
+      },
+      {
+         "id":"3a08ec26-54ac-48b8-acd5-e6ec625f9cc2",
+         "amount":100,
+         "weight":1
+      }
+   ]
+}
+
+amount и total са в стотинки. Id е id на потребителя. groupId е са на групата. Ако рикуеста е валиден, BE записва данните за плащането в базата и връща response със статус оk. 

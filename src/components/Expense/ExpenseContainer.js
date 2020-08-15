@@ -1,11 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { Paper, Divider, makeStyles, Button} from '@material-ui/core';
+import { Paper, Divider, makeStyles} from '@material-ui/core';
 import { UserContext } from '../../contexts/userContext';
 import ActiveMember from './ActiveMember';
 import InactiveMember from './InactiveMember';
 import ControlsContainer from './ControlsContainer';
 import TitledHeader from './Title';
-import { green } from '@material-ui/core/colors';
 import { INPUT_TYPE } from './constants/constants';
 import * as utils from './utils/calculations';
 import * as converter from './utils/expenseConverter';

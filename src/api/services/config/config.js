@@ -8,5 +8,6 @@ export const GET_GROUP_URL = API_PREFIX + '/groups/get';
 export const NEW_EXPENSE_API = API_PREFIX + '/payment/make-payment';
 export const CREATE_GROUP_API = API_PREFIX + '/groups/create';
 export const FIND_USER_URL = API_PREFIX + '/groups/find-new-members';
-export const ADD_USER_URL = API_PREFIX + '/groups/add-users';
+export const ADD_USER_URL = API_PREFIX + '/groups/add-user';
 export const REMOVE_PENDING_USER_URL = API_PREFIX + '/groups/remove-user';
+export const JOIN_GROUP_URL = API_PREFIX + '/groups/join';

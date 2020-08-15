@@ -46,6 +46,13 @@ const useStyles = makeStyles(theme => ({
             alignItems: 'right',
             justifyContent: 'flex-end',
             textAlign: 'center',
+        },
+        userInfo: {
+            position: 'relative',
+            top: '10px',
+            bottom: '20px',
+            width: '100%',
+            textAlign: 'left',
         }
     }
   ));
@@ -95,6 +102,13 @@ const Header = () => {
             icon: <InboxIcon />,
             onClick: logOut,
             position: 'bottom'
+        },
+        {
+            key: user.user && <div className={classes.userInfo}>
+                    <div>{user.user.firstName}&nbsp;{user.user.lastName}</div>
+                    <div>{user.user.email}</div>
+                </div>,
+            position: 'user-info'
         }
     ];
 

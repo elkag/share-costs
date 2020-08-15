@@ -12,7 +12,7 @@ const CreateGroupPage = () => {
     const [session] = React.useContext(UserContext);
     
     const [name, setName] = React.useState('');
-    const [description, setDescription] = React.useState('');
+    const [description, ] = React.useState('');
     const [userIds, ] = React.useState([]);
     const [loading, setLoading] = React.useState('');
     const [error, setError] = React.useState('');
@@ -20,8 +20,15 @@ const CreateGroupPage = () => {
 
     const onSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true);
         const response = await createGroupApi.createGroup({name, description, userIds});
-        history.push(VIEW_GROUP_PAGE + response.id);
+        setLoading(false);
+        if(response) {
+            history.push(VIEW_GROUP_PAGE + response.id);
+        } else {
+            setError(true);
+        }
+       
     }
 
     const onChangeName = (value) => {

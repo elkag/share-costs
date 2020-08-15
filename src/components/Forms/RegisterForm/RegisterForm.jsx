@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterForm = ({onSubmit, isLoading, error}) => {
 
-    const success = React.useState(!isLoading);
     const classes = useStyles(makeStyles);
 
     // registration input data 
@@ -145,12 +144,6 @@ const RegisterForm = ({onSubmit, isLoading, error}) => {
         const usernameIsFree = usernameForbiddenError;
 
         return initialized && correctInitialized && !usernameIsFree;
-    }
-
-    const onSubmitRegistration = () => {
-        if(checkData()) {
-            onSubmit(email, firstName, lastName, password, username);
-        }
     }
 
     return (

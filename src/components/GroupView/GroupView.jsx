@@ -4,15 +4,13 @@ import { makeStyles, Divider, Typography, IconButton, Button } from '@material-u
 import UserDetails from './UserDetails';
 import ExpenseContainer from '../Expense/ExpenseContainer';
 import WriteExpenseNameDialog from './WriteExpenseNameDialog';
-import CloseIcon from '@material-ui/icons/Close';
+import RemoveIcon from '@material-ui/icons/Remove';
+import AddIcon from '@material-ui/icons/Add';
 import { GroupContext } from '../../pages/GroupPage/GroupPage';
-import { textsRed, textsGrey } from '../../styles/colors';
+import { textsRed, textsGrey, textsGreen } from '../../styles/colors';
 import SearchUserComponent from '../Search/SearchUserComponent';
-import { addUserToGroupApi } from '../../api/services/addUserToGroupApi';
-import { removePendingUserApi } from '../../api/services/removePendingUserApi';
-import Loader from '../common/Loader';
-import { SERVER_ERROR } from '../../config/systemMessages';
 import EuroSymbolIcon from '@material-ui/icons/EuroSymbol';
+import { UserContext } from '../../contexts/userContext';
 
 const useStyles = makeStyles(theme => ({
     
@@ -37,8 +35,14 @@ const useStyles = makeStyles(theme => ({
     removeIcon: {
        color: textsRed,
        width: 12,
-       height: 12
+       height: 12,
+       marginRight: '12px'
     },
+    addIcon: {
+        color: textsGreen,
+        width: 12,
+        height: 12,
+     },
     paper: {
         width: '100%',
         minHeight: '100%',
@@ -104,22 +108,25 @@ const useStyles = makeStyles(theme => ({
     
 }));
 
-const GroupView = ({onUpdate}) => {
+const GroupView = (
+                {   
+                    joinGroup, 
+                    addToGroup,
+                    removePendingUser
+                }) => {
 
     const GROUP_VIEW = "GROUP_VIEW";
     const EXPENSE_VIEW = "EXPENSE_VIEW";
     const DIALOG_VIEW = "DIALOG_VIEW";
 
     const context = useContext(GroupContext);
+    const [userContext, ] = useContext(UserContext);
 
     const group = context.group;
     const classes = useStyles(makeStyles);
 
     const [state, setState] = useState(GROUP_VIEW);
     const [expenseDescription, setExpenseDescription] = useState('');
-
-    const [loading, setLoading] = React.useState(false); 
-    const [error, setError] = React.useState('');
 
     const openExpenseContainer = () => {
         setState(DIALOG_VIEW);
@@ -148,7 +155,7 @@ const GroupView = ({onUpdate}) => {
             return (
                 <div className={classes.expenseWrapper}>
                     <ExpenseContainer 
-                        group={group} 
+                        group={group}
                         description={expenseDescription} 
                         submit={onSubmitExpense} 
                         close={closeExpenseContainer}/>
@@ -165,58 +172,71 @@ const GroupView = ({onUpdate}) => {
         return null;
     }
 
-    /**
-     * @param {*} userId
-     */
-    const addToGroup = async (userId) => {
-        setLoading(true);
-        const response = await addUserToGroupApi.addUser(group.id, userId);
-        setLoading(false);
-        if(response.error){
-            setError(SERVER_ERROR);
-        } else {
-            onUpdate(response);
-        }
-    }
-
-    const removePendingUser = async (user) => {
-        setLoading(true);
-        const response = await removePendingUserApi.removeUser(group.id, user.id);
-        setLoading(false);
-        if(response.error){
-            setError(SERVER_ERROR);
-        } else {
-            onUpdate(response);
-        }
+    const renderLoggedInPendingUser = () => {
+        const pending = group.pendingUsers.filter(user => user.id === userContext.user.id);
         
+        if(pending.length > 0) {
+            
+            const user = pending[0];
+
+            return (
+                <div className={classes.pendingUsersWrapper}>
+                    <IconButton 
+                    onClick={() => removePendingUser(user)}
+                        className={classes.removeIcon}>
+                        <RemoveIcon />
+                    </IconButton>
+                    <IconButton 
+                        onClick={() => joinGroup()}
+                        className={classes.addIcon}>
+                        <AddIcon />
+                    </IconButton>
+                <div key={pending.id} className={classes.namesGrey}>
+                    {user.firstName}&nbsp;{user.lastName}
+                </div>
+            </div>
+            )
+        }
+
+        return null;
     }
 
-
-    const addToGroupHandler = (userId) => {
-        addToGroup(userId)
-    }
-
-    const removeUser = (userId) => {
-        removePendingUser(userId);
+    const renderLoggedInUsers = () => {
+        return (
+            group.pendingUsers.filter(user => user.id !== userContext.user.id).map((user, index) => (
+                <div key={index} className={classes.pendingUsersWrapper}>
+                    <IconButton 
+                        onClick={() => removePendingUser(user)} 
+                        className={classes.removeIcon}>
+                        <RemoveIcon />
+                    </IconButton>
+                    <div key={user.id} className={classes.namesGrey}>
+                        {user.firstName}&nbsp;{user.lastName}
+                    </div>
+                </div>
+            ))
+        )
     }
 
     return ( 
             (!group)  ? <div /> :
             <div className={classes.wrapper} >
-                <Loader loading={loading} error={error} />
                 { renderPopper() }
                 
                 <div className={classes.paper} elevation={2}>
                         <div className={classes.titleWrapper}>
                             <Typography className={classes.title}>{group.name}</Typography>
-                            <Button onClick={() => openExpenseContainer()}>
+                            <Button 
+                                disabled={group.pendingUsers.filter(user => user.id === userContext.user.id).length > 0}
+                                onClick={() => openExpenseContainer()}
+                            >
                                 <EuroSymbolIcon />
                                 New Expense
                             </Button>
                         </div>
                         <Divider />
                         <div className={classes.titleWrapper}>
-                            <SearchUserComponent onClick={addToGroupHandler}/>
+                            <SearchUserComponent onClick={addToGroup}/>
                             <Typography className={classes.title}>Balance: {group.balance.toFixed(2)}</Typography>
                         </div>
                         
@@ -226,20 +246,8 @@ const GroupView = ({onUpdate}) => {
                             ))
                         }
                         {group.pendingUsers.length > 0 && <Divider />}
-                        {
-                            group.pendingUsers.map(user => (
-                                <div className={classes.pendingUsersWrapper}>
-                                    <IconButton 
-                                        onClick={() => removeUser(user)} 
-                                        className={classes.removeIcon}>
-                                        <CloseIcon />
-                                    </IconButton>
-                                    <div key={user.id} className={classes.namesGrey}>
-                                        {user.firstName}&nbsp;{user.lastName}
-                                    </div>
-                                </div>
-                            ))
-                        } 
+                        { renderLoggedInPendingUser() }
+                        { renderLoggedInUsers() }
                 </div>
             </div>
     )

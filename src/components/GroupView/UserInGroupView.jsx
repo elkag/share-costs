@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
-import { grey } from '@material-ui/core/colors';
 import { textsRed, textsGreen } from '../../styles/colors';
 
 const useStyles = makeStyles((theme) => ({

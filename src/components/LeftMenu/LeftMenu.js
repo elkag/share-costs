@@ -53,6 +53,14 @@ const LeftMenu = ({menuList}) => {
       </List>
       <Divider />
       <List>
+        <ListItem >
+        { menuList.filter(item => item.position === 'user-info').map(item => 
+            <div key="info">{item.key}</div>
+          )
+        }
+        </ListItem>
+      </List>
+      <List>
       { menuList.filter(item => item.position === 'bottom').map(item => 
           <ListItem button key={item.key}  onClick={item.onClick}>
             <ListItemIcon>
@@ -62,6 +70,7 @@ const LeftMenu = ({menuList}) => {
         </ListItem>
         )}
       </List>
+      <Divider />
     </div>
   );
 

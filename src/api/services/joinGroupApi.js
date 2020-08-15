@@ -1,16 +1,16 @@
-import { FIND_USER_URL } from "./config/config";
+import { JOIN_GROUP_URL } from "./config/config";
 import { getSessionCookie } from "../../config/session";
 
-export const findUserApi = {
-    findUser: async (userId, groupId) => {
-            return fetch(FIND_USER_URL,
+export const joinGroupApi = {
+    join: async (groupId) => {
+            return fetch(JOIN_GROUP_URL,
                 {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'Authorization': 'Bearer ' + getSessionCookie().jwtToken
                     },
-                    body: `value=${userId}&groupId=${groupId}`
+                    body: `groupId=${groupId}`
                 }
             )
             .then( response => {
@@ -21,7 +21,6 @@ export const findUserApi = {
                 }
             )
             .then( json => {
-                console.log(json);
                 return json;
             }
         ).catch( error => {

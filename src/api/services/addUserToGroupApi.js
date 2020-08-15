@@ -7,10 +7,10 @@ export const addUserToGroupApi = {
                 {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + getSessionCookie().jwtToken
                     },
-                    body: `userIds=${userId}&groupId=${groupId}`
+                    body: JSON.stringify({groupId, userId})
                 }
             )
             .then( response => {
