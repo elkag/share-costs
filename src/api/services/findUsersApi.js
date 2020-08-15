@@ -21,7 +21,6 @@ export const findUserApi = {
                 }
             )
             .then( json => {
-                console.log(json);
                 return json;
             }
         ).catch( error => {

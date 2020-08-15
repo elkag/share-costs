@@ -1,8 +1,8 @@
 import { INPUT_TYPE } from "../constants/constants";
+import { TableContainer } from "@material-ui/core";
 
 
 export const calculateWeightedUserPercent = (expense, user) => {
-    
     const count = expense.users.map(current => current.weight).reduce((a, b) => Number(a) + Number(b), 0);
 
     return Math.round((user.weight / count) * 100);
@@ -17,24 +17,22 @@ export const recalculateOnChangeUserAmount = (expense, user, amount) => {
     
     const clone = Object.assign({}, expense);
 
-    const amountInCents = Math.round(amount * 100);
+    let amountInCents = Math.round(amount * 100);
+    
+    if(amountInCents > expense.totalInCents) {
+        amountInCents = expense.totalInCents;
+    }
     
     clone.users.filter(current => current.id === user.id).map(current => {
         current.amount.updated = true;
         current.amount.value = amountInCents;
         current.amount.max = clone.total;
-        current.amount.stringValue = amount;
+        current.amount.stringValue = (amountInCents/100);
         return current;
     })
 
     let count = clone.users.filter(current => !current.amount.updated).length;
 
-    let totalPaidInCents = clone.users
-                .filter(current => current.amount.updated)
-                .map(current => current.amount.value)
-                .reduce((a, b) => parseFloat(a) + parseFloat(b), 0);
-
-    
     if(count === 0) {
         clone.users
             .filter(current => user.id !== current.id)
@@ -47,6 +45,12 @@ export const recalculateOnChangeUserAmount = (expense, user, amount) => {
         count = clone.users.length - 1;
     }
 
+    
+    let totalPaidInCents = clone.users
+                .filter(current => current.amount.updated)
+                .map(current => current.amount.value)
+                .reduce((a, b) => parseFloat(a) + parseFloat(b), 0);
+    
     let amountPerUserInCents = (clone.totalInCents - totalPaidInCents) / count;
     
     if(amountPerUserInCents < 0) {
@@ -57,17 +61,12 @@ export const recalculateOnChangeUserAmount = (expense, user, amount) => {
             current.amount.max = clone.total;
             return current;
         })
-
-        totalPaidInCents = clone.users
-                .filter(current => current.amount.updated)
-                .map(current => current.amount.value)
-                .reduce((a, b) => parseFloat(a) + parseFloat(b), 0);
+     
+        amountPerUserInCents = (clone.totalInCents - amountInCents) /  (expense.users.length -1);
     }
 
-    amountPerUserInCents = (clone.totalInCents - totalPaidInCents) / count;
-
     clone.users.filter(current => !current.amount.updated).map(current => {
-        current.amount.value = amountPerUserInCents;
+        current.amount.value = Math.round(amountPerUserInCents);
         current.amount.max = clone.total;
         current.amount.stringValue = (amountPerUserInCents/100).toFixed(2);
         return current;
@@ -101,7 +100,7 @@ export const recalculateAllUsersAmount = (expense, total) => {
     return clone;
 }
 
-export const recalculateForNewMember = (expense, user) => {
+export const recalculateOnAddMember = (expense, user) => {
     const clone = Object.assign({}, expense);
 
     clone.users.push(user);

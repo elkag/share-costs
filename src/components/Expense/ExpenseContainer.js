@@ -193,7 +193,7 @@ const ExpenseContainer = ({description, submit, close}) => {
             weight: 1
         }
 
-        const updated = utils.recalculateForNewMember(expense, mapped);
+        const updated = utils.recalculateOnAddMember(expense, mapped);
         setExpense(updated)
     }
 
