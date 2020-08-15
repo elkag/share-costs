@@ -21,8 +21,6 @@ export const getGroupApi = {
                 }
             )
             .then( json => {
-                console.log(json);
-                console.log("message = " + json);
                 return json;
             }
         ).catch( error => {
@@ -31,13 +29,11 @@ export const getGroupApi = {
                     return { error: true, message: error.message }
                 }
                 return error.json().then((responseJson) => {
-                    console.log(responseJson);
-                    console.log("message = " + responseJson.message);
                     return responseJson;
                 }
             )
-        }).then(responce => {
-            return responce;
+        }).then(response => {
+            return response;
         }) 
   }
 }

@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core';
       width: '100%',
       height: '100%',
       backgroundColor: 'rgba(0,0,0,0.5)',
-      zIndex:'1',
+      zIndex: 100,
       color: blue[300],
     }
     

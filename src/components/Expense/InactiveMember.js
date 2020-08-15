@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../../contexts/userContext';
-import { makeStyles, Fade, Button } from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { red } from '@material-ui/core/colors';
 
@@ -55,9 +55,7 @@ const InactiveMember = ({user, onClickUser}) => {
     }
 
     return (
-        <Fade in={true}  timeout={600}>
-            { renderUser(user)}
-        </Fade>
+        renderUser(user)
     )
 }
 

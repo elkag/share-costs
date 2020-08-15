@@ -1,8 +1,6 @@
 import React from 'react';
 import { IconButton, makeStyles } from '@material-ui/core';
 import { deepOrange, blue } from '@material-ui/core/colors';
-import { LOGIN_PAGE } from '../../config/routes';
-import { useHistory } from 'react-router-dom';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles(theme => ({
@@ -10,9 +8,11 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+         marginLeft: '20px',
     },
     avatar: {
         color: theme.palette.getContrastText(deepOrange[500]),
+       
         backgroundColor: deepOrange[400],
         width: theme.spacing(5),
         height: theme.spacing(5),

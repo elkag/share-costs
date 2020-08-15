@@ -1,6 +1,6 @@
 import React from 'react';
 import GroupElement from './GroupElement';
-import { makeStyles, Tabs, Tab, Paper, Fade } from '@material-ui/core';
+import { makeStyles, Tabs, Tab, Paper } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
@@ -16,7 +16,6 @@ const useStyles = makeStyles(theme => ({
         paddingTop: '20px',
     },
     content: {
-         maxWidth:'800px',
          width: '100%',
          alignItems: 'center',
     },
@@ -42,12 +41,12 @@ const GroupList = ({groups}) => {
         const selectedGroups = getSelectedGroups();
         return selectedGroups && selectedGroups.map((group, index) => {
           return (
-                <GroupElement key={group._id} group={group} />
+                <GroupElement key={index} group={group} />
           )
         })
       }
 
-      const getSelectedGroups = () => {
+    const getSelectedGroups = () => {
         
         if(!groups)
             return null;
@@ -56,29 +55,27 @@ const GroupList = ({groups}) => {
                 return groups.filter(group => group.status.toUpperCase() === filterTypes[filter]);
             }
 
-        return [...groups];
+        return Object.assign(groups);
       }
 
     return (
-        <Fade timeout='500' in={true}>
         <div className={classes.wrapper}>
             <div className={classes.content}>
-            <Paper >
-            <Tabs 
-                value={filter}
-                indicatorColor="primary"
-                textColor="primary"
-                onChange={handleChange}
-            >
-                <Tab label="All" />
-                <Tab label="Active" />
-                <Tab label="Closed" />
-            </Tabs>
-        </Paper>
-            { renderGroups() }
+                <Paper >
+                    <Tabs 
+                        value={filter}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        onChange={handleChange}
+                    >
+                        <Tab label="All" />
+                        <Tab label="Active" />
+                        <Tab label="Closed" />
+                    </Tabs>
+                </Paper>
+                { renderGroups() }
+            </div>
         </div>
-        </div>
-        </Fade>
     )
 }
 

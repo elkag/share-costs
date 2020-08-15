@@ -1,14 +1,21 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { IconButton, Menu, MenuItem, makeStyles } from '@material-ui/core';
 import { UserContext } from '../../contexts/userContext';
 import { deepOrange, blue } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
+    wrapper: {
+        mainIconsWrapper: {
+        display: 'flex',
+        alignItems: 'left',
+        justifyContent: 'flex-start',
+        textAlign: 'center',
+        paddingLeft: '2%'
+        }
+    },
     avatar: {
         color: theme.palette.getContrastText(deepOrange[500]),
         backgroundColor: deepOrange[400],
-        width: theme.spacing(6),
-        height: theme.spacing(6),
         fontSize: '11pt',
         fontWeight: 'bold',
         '&:hover': {
@@ -18,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 
     },
     menu: {
-        marginTop:'100px'
+        //marginTop:'100px'
     },
 }
 ));
@@ -32,7 +39,6 @@ const ProfileButton = ({logOutHandler}) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
-        console.log(event.currentTarget)
         setAnchorEl(document.getElementById('menu_container'));
     };
   
@@ -46,9 +52,10 @@ const ProfileButton = ({logOutHandler}) => {
     }
 
     return (
-        <Fragment>
+        <div className={classes.wrapper}>
             <IconButton className={classes.avatar} onClick={ handleClick }>
                 {context.user.firstName[0] + context.user.lastName[0]}
+                <div id="menu_container" className={classes.menu} />
             </IconButton>
             <div id="menu_container" className={classes.menu} />
                 
@@ -63,7 +70,7 @@ const ProfileButton = ({logOutHandler}) => {
                 <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem onClick={logOut}>Logout</MenuItem>
             </Menu>
-        </Fragment>
+        </div>
     )
 }
 

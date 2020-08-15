@@ -1,13 +1,12 @@
 import React from 'react';
 import { grey, deepOrange } from '@material-ui/core/colors';
-import { makeStyles, Button, Fade } from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { VIEW_GROUP_PAGE } from '../../config/routes';
 
 
 const useStyles = makeStyles(theme => ({
     root: { 
-        fontFamily: 'Arial, Helvetica, sans-serif',
         color: grey[900],
         display: 'flex',
         marginTop: '5px',
@@ -34,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     },
     secondColumnWrapper: {
         width: '100%',
-        height: '100%',
+        minHeight: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end',
@@ -60,12 +59,12 @@ const useStyles = makeStyles(theme => ({
         fontWeight: 'bold',
         fontSize: '10pt',
         color: deepOrange[700],
-        height: '100%',
+        minHeight: '100%',
     },
     balance: {
         fontWeight: 'bold',
         fontSize: '10pt',
-        height: '100%',
+        minHeight: '100%',
     },
   }
   ));
@@ -75,7 +74,6 @@ const GroupElement = ({group}) => {
     const classes = useStyles(makeStyles);
 
     return (
-        <Fade in={true} out={true}>
         <Button className={classes.root} onClick={() => history.push(VIEW_GROUP_PAGE + group.id)}>
             <div className={classes.firstColumnWrapper}>
                 <div className={classes.title}>{group.name}</div>
@@ -88,7 +86,6 @@ const GroupElement = ({group}) => {
                 <div className={classes.balance}>Balance: {group.balance}</div>
             </div>
         </Button>
-        </Fade>
     )
     
 }

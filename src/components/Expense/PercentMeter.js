@@ -46,7 +46,9 @@ const PercentMeter = ({ value }) => {
     return (
         <div>
             <div className={classes.progressWrapper}>
-                <LinearProgressWithLabel className={classes.progress} value={progress} />
+                <LinearProgressWithLabel 
+                    className={classes.progress} 
+                    value={progress !== undefined ? progress : 0} />
             </div>
         </div>
     )

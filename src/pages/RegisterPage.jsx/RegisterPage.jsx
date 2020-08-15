@@ -1,7 +1,7 @@
 import React from 'react';
 // Configuration
 import { HOME_PAGE } from '../../config/routes';
-import { setSessionCookie, deleteSessionCoockie } from '../../config/session';
+import { setSessionCookie, deleteSessionCookie } from '../../config/session';
 import { UserContext } from '../../contexts/userContext';
 
 // API
@@ -18,16 +18,16 @@ const RegisterPage = (props) => {
     const [, setSession] = React.useContext(UserContext);
     const [loading, setLoading] = React.useState(false);
 
-     // if there is some error from the server side
+    // if there is some error from the server side
     const [error, setError] = React.useState( true );
 
     const logIn = async (loginUsername, loginPassword) => {
-        const sesionDetails = await loginApi.logIn(loginUsername, loginPassword);
-        if(sesionDetails.error) {
-            setError(sesionDetails.message)
+        const sessionDetails = await loginApi.logIn(loginUsername, loginPassword);
+        if(sessionDetails.error) {
+            setError(sessionDetails.message)
         } else {
-            setSession( {user: sesionDetails.user} );
-            setSessionCookie(sesionDetails);
+            setSession( {user: sessionDetails.user} );
+            setSessionCookie(sessionDetails);
             props.history.push(HOME_PAGE);
         }
       }
@@ -43,7 +43,7 @@ const RegisterPage = (props) => {
         username
     ) => {
         setLoading(true);
-        const responce = await registerApi.register(
+        const response = await registerApi.register(
             {
                 email,
                 firstName,
@@ -54,10 +54,10 @@ const RegisterPage = (props) => {
         );
 
         setLoading(false);
-        if(responce.error) {
-            setError(responce.message)
+        if(response.error) {
+            setError(response.message)
         } else {
-            deleteSessionCoockie("session")
+            deleteSessionCookie("session")
             await logIn(username, password)
         }
     };

@@ -5,21 +5,28 @@ import EmailInputField from '../InputFields/EmailInput';
 import TextInput from '../InputFields/TextInput';
 //styles
 import styles from './register-form.module.css';
-import clsx from 'clsx';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from '@material-ui/core/Button';
-import useSubmitButtonStyles from '../submitButtonStyles';
 import UsernameInput from '../InputFields/UsernameInput';
 import { checkUsernameApi } from '../../../api/services/checkUsernameApi';
+import StyledButton from '../../common/StyledButton';
+import { makeStyles } from '@material-ui/core';
+import { textsRed } from '../../../styles/colors';
+
+const useStyles = makeStyles((theme) => ({
+     error: {
+        height:'20px',
+        color: textsRed,
+        fontSize: 'small', 
+        display: 'flex',
+        justifyContent: 'flex-start',
+        paddingTop: '5px',
+        paddingLeft: '5px'
+     }
+}));
 
 const RegisterForm = ({onSubmit, isLoading, error}) => {
 
-    const classes = useSubmitButtonStyles();
-    const success = React.useState(!isLoading);
-
-    const buttonClassname = clsx({
-        [classes.buttonSuccess]: success,
-      });
+    const classes = useStyles(makeStyles);
 
     // registration input data 
     const [email, setEmail] = React.useState("");
@@ -139,15 +146,9 @@ const RegisterForm = ({onSubmit, isLoading, error}) => {
         return initialized && correctInitialized && !usernameIsFree;
     }
 
-    const onSubmitRegistration = () => {
-        if(checkData()) {
-            onSubmit(email, firstName, lastName, password, username);
-        }
-    }
-
     return (
         <FormLayout>
-            <div className={styles.header}>Create Account</div>
+            <div className={classes.header}>Create Account</div>
             <EmailInputField 
                 id="email"
                 value={email}
@@ -214,19 +215,11 @@ const RegisterForm = ({onSubmit, isLoading, error}) => {
                 onChange={onChangeRePassword} 
                 required={true} />
 
-            <div className={styles.error}>{error}</div>
-            <div className={styles["button-wrapper"]} >
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={buttonClassname}
-                        disabled={isLoading || !checkData()}
-                        onClick={onSubmitRegistration}
-                        >
+            <div className={classes.error}>{error}</div>
+                    <StyledButton>
                         Login
-                        </Button>
-                        {isLoading && <CircularProgress size={24} className={classes.buttonProgress} />}
-                </div>
+                    </StyledButton>
+                    {isLoading && <CircularProgress size={24}/>}
         </FormLayout>
     )
 }

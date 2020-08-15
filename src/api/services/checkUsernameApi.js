@@ -28,25 +28,20 @@ export const checkUsernameApi = {
                     throw response;
                 }
             ).then( json => {
-                    console.log(json);
-                    console.log("message = " + json);
                     return json;
                 }
             ).catch( error => {
-                console.log("Error occurred");
                 if (error instanceof Error) {
                     // {message: "..."}
                     return { error: true, message: error.message }
                 }
                 return error.json().then((responseJson) => {
-                    console.log(responseJson);
-                    console.log("message = " + responseJson.message);
                     return responseJson;
                 }
             )
         }
-        ).then(responce => {
-            return responce;
+        ).then(response => {
+            return response;
         })
   }
 }

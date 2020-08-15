@@ -1,24 +1,27 @@
 import React from 'react';
 
 //styles
-import styles from './login-form.module.css';
 import FormLayout from '../FormLayout/FormLayout';
 import TextInput from '../InputFields/TextInput';
-import clsx from 'clsx';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from '@material-ui/core/Button';
-import useSubmitButtonStyles from '../submitButtonStyles';
+import StyledButton from '../../common/StyledButton';
+import { makeStyles } from '@material-ui/core';
+import { textsRed } from '../../../styles/colors';
 
-
+const useStyles = makeStyles((theme) => ({
+     error: {
+        height:'20px',
+        color: textsRed,
+        fontSize: 'small', 
+        display: 'flex',
+        justifyContent: 'flex-start',
+        paddingTop: '5px',
+        paddingLeft: '5px'
+     }
+}));
 const LoginForm = ({onSubmit, isLoading, error}) => {
 
-    const classes = useSubmitButtonStyles();
     const success = React.useState(!isLoading);
-
-    const buttonClassname = clsx({
-        [classes.buttonSuccess]: success,
-      });
-
+    const classes = useStyles(makeStyles);
     // Credentials data
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -85,19 +88,13 @@ const LoginForm = ({onSubmit, isLoading, error}) => {
                   title="Password" 
                   placeholder="Your password.."
                   onChange={ onChangePassword } />
-                <div className={styles.error}>{error}</div>
-                <div className={styles["button-wrapper"]} >
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={buttonClassname}
-                        disabled={isLoading}
+                <div className={classes.error}>{error}</div>
+                    <StyledButton
                         onClick={onSubmitLogin}
+                        disabled={isLoading}
                         >
                         Login
-                        </Button>
-                        {isLoading && <CircularProgress size={24} className={classes.buttonProgress} />}
-                </div>
+                    </StyledButton>
             </FormLayout>
     )
 }
