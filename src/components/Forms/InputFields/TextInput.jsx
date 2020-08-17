@@ -11,7 +11,8 @@ const TextInput = ({    id,
                         inputName,
                         title,
                         placeholder,
-                        compare
+                        compare,
+                        testid
                         }) => {
 
     const [errorMsg, setErrorMsg] = React.useState('');
@@ -47,7 +48,8 @@ const TextInput = ({    id,
                 onChange={onChangeInput}
                 onBlur={onBlur}
                 error={errorMsg}
-                required={true}/>
+                required={true}
+                testid={testid}/>
     );
 }
 

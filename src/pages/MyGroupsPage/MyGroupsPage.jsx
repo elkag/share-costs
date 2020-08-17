@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useCallback } from 'react';
 import { UserContext } from '../../contexts/userContext';
 import { Redirect } from 'react-router-dom';
 import { getGroupsApi } from '../../api/services/getGroupsApi';
@@ -13,9 +13,8 @@ const MyGroupsPage = () => {
   const [groups, setGroups] = React.useState(null);
   const [loading, setLoading] = React.useState(true); 
   const [error, setError] = React.useState('');
-  const isMountedComponent = React.useRef(true);
 
-  const getGroups = async () => {
+  const getGroups = useCallback(async () => {
     const response = await getGroupsApi.getGroups();
     setLoading(false);
     if(response.error){
@@ -23,18 +22,13 @@ const MyGroupsPage = () => {
     } else {
       setGroups(response);
     }
-  }
+    
+    setLoading(false);
+  }, [ setGroups])
 
   useEffect( () => {
-    if (isMountedComponent.current) {
-      getGroups();
-    }
-    
-    return () => {
-      isMountedComponent.current = false;
-    }
-
-  },[])
+    getGroups();
+  },[getGroups])
 
   const renderElements = () => {
 

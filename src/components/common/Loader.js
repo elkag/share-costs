@@ -19,7 +19,7 @@ import { makeStyles } from '@material-ui/core';
   }));
 /**
  * 
- * @param {*} props {loading, isError, error}, 
+ * @param {*} props {loading, error}, 
  */
 const Loader = ({loading, error}) => {
 

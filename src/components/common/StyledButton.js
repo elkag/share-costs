@@ -23,10 +23,12 @@ const StyledButton = (props) => {
     
     return (
       <div className={classes.wrapper}>
-        <Button variant="contained"  
+        <Button 
+                variant="contained"  
                 type="submit"
                 onClick={props.onClick} 
                 disabled={props.disabled || props.disabled === "true"}
+                data-testid='submit'
                 className={classes.submitButton} >
                     {props.children}
         </Button>

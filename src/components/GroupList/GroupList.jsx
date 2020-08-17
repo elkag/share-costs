@@ -17,6 +17,7 @@ const useStyles = makeStyles(theme => ({
     },
     content: {
          width: '100%',
+         maxWidth: '600px',
          alignItems: 'center',
     },
    

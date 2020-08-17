@@ -11,6 +11,7 @@ import LoginForm from '../../components/Forms/LoginForm/LoginForm';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 import { blue, red } from '@material-ui/core/colors';
+import Loader from '../../components/common/Loader';
 
 const useStyles = makeStyles(theme => ({
   pageWrapper: {
@@ -51,8 +52,8 @@ const useStyles = makeStyles(theme => ({
 const LoginPage = (props) => {
   
     // User session
-    const [, setSession] = React.useContext(UserContext);
-    const [error, setError] = React.useState(false);
+    const [session, setSession] = React.useContext(UserContext);
+    const [error, setError] = React.useState('');
     const [loading, setLoading] = React.useState(false);
     const classes = useStyles(makeStyles);
     // Sends requested data to BE
@@ -76,6 +77,7 @@ const LoginPage = (props) => {
 
     return (
       <div className={classes.pageWrapper}>
+        <Loader loading={loading} error={error} />
         <LoginForm onSubmit={logIn} isLoading={loading} error={error}/>
         <div className={classes.infoText}>
           You have not account yet?

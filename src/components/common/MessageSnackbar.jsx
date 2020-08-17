@@ -55,7 +55,7 @@ export default function MessageSnackbar({message}) {
                 <div className={classes.content}>
                     <ErrorIcon  className={classes.icon} fontSize="small" />
                 </div>
-              <div className={classes.content}>{message}</div>
+              <div data-test-id="errorMessage" className={classes.content}>{message}</div>
             </div>
           }
         ContentProps={{ className: classes.error}}

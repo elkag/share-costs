@@ -3,9 +3,9 @@ import { calculateWeightedUserPercent,
         recalculateOnAddMember, 
         recalculateAllUsersAmount, 
         recalculateOnChangeInputType, 
-        recalculateOnChangeWeight } from './calculations';
+        recalculateOnChangeWeight } from '../calculations';
         
-import { INPUT_TYPE } from '../constants/constants';
+import { INPUT_TYPE } from '../../constants/constants';
 
 const getUser = (id) => {
     return (

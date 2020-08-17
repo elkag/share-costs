@@ -44,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
                         inputName,
                         title,
                         placeholder,
-                        error }) => {
+                        error, 
+                        testid}) => {
 
     const classes = useStyles(makeStyles);
 
@@ -69,7 +70,8 @@ const useStyles = makeStyles((theme) => ({
                        placeholder={placeholder} 
                        onChange={onChangeInput}
                        onBlur={onBlur}
-                       disabled={disabled} />
+                       disabled={disabled}
+                       data-testid={testid} />
            </div>
            
        </div> )

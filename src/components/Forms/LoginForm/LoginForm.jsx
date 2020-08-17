@@ -54,7 +54,6 @@ const LoginForm = ({onSubmit, isLoading, error}) => {
 
     const onSubmitLogin = () => {
         if(checkData()) {
-            
             onSubmit(username, password)
         }
     }
@@ -71,24 +70,26 @@ const LoginForm = ({onSubmit, isLoading, error}) => {
     return (
             <FormLayout>
                 <TextInput 
-                  id="username" 
-                  disabled={isLoading}
-                  type="text"
-                  value={username}
-                  inputName="username" 
-                  title="Username" 
-                  placeholder="Your username.."
-                  onChange={ onChangeUsername } />
+                    testid='login_uname'
+                    id="username" 
+                    disabled={isLoading}
+                    type="text"
+                    value={username}
+                    inputName="username" 
+                    title="Username" 
+                    placeholder="Your username.."
+                    onChange={ onChangeUsername } />
                 <TextInput 
-                  id="password" 
-                  disabled={isLoading}
-                  type="password"
-                  value={password}
-                  inputName="password" 
-                  title="Password" 
-                  placeholder="Your password.."
-                  onChange={ onChangePassword } />
-                <div className={classes.error}>{error}</div>
+                    testid='login-pass'
+                    id="password" 
+                    disabled={isLoading}
+                    type="password"
+                    value={password}
+                    inputName="password" 
+                    title="Password" 
+                    placeholder="Your password.."
+                    onChange={ onChangePassword } />
+                <div data-testid='login-error' className={classes.error}>{error}</div>
                     <StyledButton
                         onClick={onSubmitLogin}
                         disabled={isLoading}
