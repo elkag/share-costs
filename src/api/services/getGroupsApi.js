@@ -8,6 +8,7 @@ export const getGroupsApi = {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': 'http://localhost:3000',
                         'Authorization': 'Bearer ' + getSessionCookie().jwtToken
                     },
                     
@@ -26,7 +27,6 @@ export const getGroupsApi = {
         ).catch( error => {
                 console.log("Error occurred");
                 if (error instanceof Error) {
-                    // {message: "..."}
                     return { error: true, message: error.message }
                 }
                 return error.json().then((responseJson) => {

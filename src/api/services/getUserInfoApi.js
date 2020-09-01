@@ -1,17 +1,16 @@
-import { LOGIN_SERVICE_URL } from './config/config';
+import { USER_INFO_SERVICE_URL } from './config/config';
 
-export const loginApi = {
-    logIn: async (username, password) => {
+export const getUserInfoApi = {
+    getUserInfo: async (token) => {
 
-        return fetch(LOGIN_SERVICE_URL,
+        return fetch(USER_INFO_SERVICE_URL,
             {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:3000'
-                },
-                // body data type must match "Content-Type" header
-                body: JSON.stringify({username, password})
+                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'Authorization': 'Bearer ' + token
+                }
             }
             ).then( response => {
                     if(response.ok) {
@@ -30,8 +29,7 @@ export const loginApi = {
                 return error.json().then((responseJson) => {
                     return responseJson;
                 }
-                
-                )
+            )
                 
         }).then(response => {
             return response;

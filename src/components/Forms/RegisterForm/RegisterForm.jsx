@@ -4,16 +4,26 @@ import FormLayout from '../FormLayout/FormLayout';
 import EmailInputField from '../InputFields/EmailInput';
 import TextInput from '../InputFields/TextInput';
 //styles
-import styles from './register-form.module.css';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import UsernameInput from '../InputFields/UsernameInput';
-import { checkUsernameApi } from '../../../api/services/checkUsernameApi';
 import StyledButton from '../../common/StyledButton';
 import { makeStyles } from '@material-ui/core';
 import { textsRed } from '../../../styles/colors';
 
 const useStyles = makeStyles((theme) => ({
-     error: {
+    fields: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        flexGrow: 1
+    },
+    title: {
+        display: 'flex',
+        justifyContent: 'left',
+        paddingBottom:20
+    },
+    error: {
         height:'20px',
         color: textsRed,
         fontSize: 'small', 
@@ -21,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'flex-start',
         paddingTop: '5px',
         paddingLeft: '5px'
-     }
+    }
 }));
 
 const RegisterForm = ({onSubmit, isLoading, error}) => {
@@ -108,29 +118,6 @@ const RegisterForm = ({onSubmit, isLoading, error}) => {
         setRepassword(value);
     }
 
-    /**
-     * Username validation
-     * This method sends request to BE to see if the username is free
-     * 
-     * @param {String} aValue //username value
-     */
-     const checkUsername = async (event) => {
-        setUsernameForbiddenError(true);
-        setUsernameCheckInProgress(true);
-        await checkUsernameApi.checkUsername(event.target.value)
-                .then((response) => { 
-                    if(response.error) {
-                        setUsernameError(true);
-                        setUsernameErrorMessage(response.message)
-                    } else {
-                        setUsernameForbiddenError(false)
-                        setUsernameError(false);
-                        setUsernameErrorMessage('')
-                    }
-                    setUsernameCheckInProgress(false);
-                });
-    }
-
     const checkData = () => {
         // All fields are initialized    
         const initialized = ( emailFieldInitialized && firstNameFieldInitialized && 
@@ -140,86 +127,86 @@ const RegisterForm = ({onSubmit, isLoading, error}) => {
         const correctInitialized = !emailError && !firstNameError && !lastNameError && 
                                     !usernameError && !passwordError && !repasswordError
 
-        //Username is free 
-        const usernameIsFree = usernameForbiddenError;
 
-        return initialized && correctInitialized && !usernameIsFree;
+        return true;//initialized && correctInitialized;
     }
 
     return (
         <FormLayout>
-            <div className={classes.header}>Create Account</div>
-            <EmailInputField 
-                id="email"
-                value={email}
-                onChange={onChangeEmail} 
-                disabled={isLoading}
-                inputName="email" 
-                title="Email" 
-                placeholder="Your email.." 
-                required={true}
-                error={emailError}
+            <div className={classes.title}>
+                <h3>Create an account</h3>
+            </div>
+            <div className={classes.fields}>
+                <TextInput 
+                    id="fname" 
+                    value={firstName}
+                    disabled={isLoading}
+                    type="text" 
+                    inputName="fname" 
+                    title="First name" 
+                    placeholder="Your first name.." 
+                    onChange={onChangeFirstName} 
+                    required={true} />
+                <TextInput 
+                    id="lname" 
+                    value={lastName}
+                    disabled={isLoading}
+                    type="text" 
+                    inputName="lname" 
+                    title="Last name" 
+                    placeholder="Your last name.." 
+                    onChange={onChangeLastName} 
+                    required={true} />
+                <UsernameInput 
+                    id="username" 
+                    value={username}
+                    disabled={isLoading || usernameCheckInProgress}
+                    error={usernameErrorMessage}
+                    type="text" 
+                    inputName="username" 
+                    title="Username" 
+                    placeholder="Your username.." 
+                    onChange={onChangeUsername} 
+                    required={true} />
+                <EmailInputField 
+                    id="email"
+                    value={email}
+                    onChange={onChangeEmail} 
+                    disabled={isLoading}
+                    inputName="email" 
+                    title="Email" 
+                    placeholder="Your email.." 
+                    required={true}
+                    error={emailError}
                 />
-            <TextInput 
-                id="fname" 
-                value={firstName}
-                disabled={isLoading}
-                type="text" 
-                inputName="fname" 
-                title="First name" 
-                placeholder="Your first name.." 
-                onChange={onChangeFirstName} 
-                required={true} />
-            <TextInput 
-                id="lname" 
-                value={lastName}
-                disabled={isLoading}
-                type="text" 
-                inputName="lname" 
-                title="Last name" 
-                placeholder="Your last name.." 
-                onChange={onChangeLastName} 
-                required={true} />
-            <UsernameInput 
-                id="username" 
-                value={username}
-                disabled={isLoading || usernameCheckInProgress}
-                error={usernameErrorMessage}
-                type="text" 
-                inputName="username" 
-                title="Username" 
-                placeholder="Your username.." 
-                onChange={onChangeUsername} 
-                onBlur={checkUsername}
-                required={true} />
-            <TextInput 
-                id="password" 
-                value={password}
-                disabled={isLoading}
-                compare={repassword}
-                type="password" 
-                inputName="password" 
-                title="Password" 
-                placeholder="Your password.." 
-                onChange={onChangePassword} 
-                required={true} />
-            <TextInput 
-                id="repassword" 
-                value={repassword}
-                disabled={isLoading}
-                compare={password}
-                type="password" 
-                inputName="repassword" 
-                title="Retype password" 
-                placeholder="Type your password again ..." 
-                onChange={onChangeRePassword} 
-                required={true} />
-
+                <TextInput 
+                    id="password" 
+                    value={password}
+                    disabled={isLoading}
+                    compare={repassword}
+                    type="password" 
+                    inputName="password" 
+                    title="Password" 
+                    placeholder="Your password.." 
+                    onChange={onChangePassword} 
+                    required={true} />
+                <TextInput 
+                    id="repassword" 
+                    value={repassword}
+                    disabled={isLoading}
+                    compare={password}
+                    type="password" 
+                    inputName="repassword" 
+                    title="Retype password" 
+                    placeholder="Type your password again ..." 
+                    onChange={onChangeRePassword} 
+                    required={true} />
+            </div>
             <div className={classes.error}>{error}</div>
-                    <StyledButton>
-                        Login
-                    </StyledButton>
-                    {isLoading && <CircularProgress size={24}/>}
+            <StyledButton>
+                Register
+            </StyledButton>
+            {isLoading && <CircularProgress size={24}/>}
         </FormLayout>
     )
 }

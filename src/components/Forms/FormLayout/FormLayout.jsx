@@ -1,25 +1,23 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Paper } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     loginPageWrapper: {
-        marginTop: '20px',
-        width: '100%',
-        minHeight: '100%',
         textAlign: 'center',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
       },
-      container: {
-        minHeight: '100%',
-        width: '100%',
+    container: {
+        display: 'flex',
+        flexGrow: 1,
+        flexWrap: 'wrap',
         borderRadius: '5px',
-        backgroundColor: '#f2f2f2',
-        maxWidth: '280px',
-        padding: '10px'
-      }
+        flexDirection: 'column',
+        maxWidth: '500px',
+        padding: 20
+    }
 }))
 
 const FormLayout = (props) => {
@@ -28,9 +26,9 @@ const FormLayout = (props) => {
     
     return (
         <div className={classes.loginPageWrapper}>
-            <div className={classes.container}>
+            <Paper className={classes.container} elevation={2}>
                 {props.children}
-            </div>
+            </Paper>
         </div>
     )
 }

@@ -5,12 +5,12 @@ import { deepOrange } from '@material-ui/core/colors/';
 const useStyles = makeStyles((theme) => ({
     wrapper: {
         display: 'flex',
-        justifyContent: 'flex-end',
-        paddingTop: '10px'
+        justifyContent: 'flex-start',
     },
     submitButton: {
       color: "white",
       backgroundColor: deepOrange[400],
+      minWidth: 200,
       '&:hover': {
         backgroundColor: deepOrange[600],
       },

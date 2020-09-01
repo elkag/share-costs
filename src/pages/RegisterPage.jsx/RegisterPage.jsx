@@ -10,10 +10,24 @@ import { loginApi } from '../../api/services/loginApi';
 
 // Components
 import RegisterForm from '../../components/Forms/RegisterForm/RegisterForm';
+import { makeStyles } from '@material-ui/core';
+import { bgColor } from '../../styles/colors';
 
+const useStyles = makeStyles(theme => ({
+    pageWrapper: {
+        width: '100%',
+        minHeight: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        backgroundColor: bgColor
+    }
+  }));
+  
 
 const RegisterPage = (props) => {
 
+    const classes = useStyles(makeStyles);
     // Session context
     const [, setSession] = React.useContext(UserContext);
     const [loading, setLoading] = React.useState(false);
@@ -63,7 +77,9 @@ const RegisterPage = (props) => {
     };
 
     return (
-        <RegisterForm error={error} isLoading={loading} onSubmit={onSubmit} />
+        <div className={classes.pageWrapper} >
+            <RegisterForm error={error} isLoading={loading} onSubmit={onSubmit} />
+        </div>
     )
 }
 
