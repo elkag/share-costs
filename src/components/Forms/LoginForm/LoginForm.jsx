@@ -4,13 +4,14 @@ import React from 'react';
 import FormLayout from '../FormLayout/FormLayout';
 import TextInput from '../InputFields/TextInput';
 import StyledButton from '../../common/StyledButton';
+import FacebookButton from '../../common/FacebookButton';
 import { makeStyles, Divider, Button } from '@material-ui/core';
 import { textsRed, mainGreen } from '../../../styles/colors';
 import { REGISTER_PAGE } from '../../../config/routes';
-import { FACEBOOK_AUTH_URL } from '../../../api/services/config/config';
-
+import { FacebookProvider, LoginButton, Like, Profile } from 'react-facebook';
 import googleLogo from '../../../resources/img/google-logo.png';
 import facebookLogo from '../../../resources/img/fb-logo.png';
+import GoogleButton from '../../common/GoogleButton';
 
 const useStyles = makeStyles((theme) => ({
     titleRow: {
@@ -54,39 +55,28 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: 10,
     },
     btnFacebook: {
-        float: 'middle',
+        background: '#4267b2',
+        color: 'white',
         verticalAlign: 'middle',
-        textAlign: 'left',
-        width: 180,
-        height: 26,
+        textAlign: 'center',
+        border: 0,
         borderRadius: '4px',
-        background: '#3b5998',
-        color:'white',
-        border:'0px transparent', 
-        display: 'inline-block',
-        paddingTop: 10,
-        paddingBottom: 10,
-        fontSize: '10pt'
-    },
-    btnGoogle: {
-        verticalAlign: 'middle',
-        textAlign: 'left',
-        width: 180,
-        height: 26,
-        borderRadius: '4px',
-        background: 'white',
-        color:'grey',
-        border:'1px solid', 
-        borderColor: 'grey',
         margin:'5px',
-        display: 'inline-block',
-        paddingTop: 10,
-        paddingBottom: 10,
-        fontSize: '10pt'
+        paddingBottom:10
+    },
+    fbText: {
+        marginRight: 8
+    },
+    hidden: {
+        padding: 0,
+        margin: 0,
+        backgroundColor: 'rgba(0,0,0,0)',
+        borderColor: 'rgba(0,0,0,0)'
     },
     logoImage: {
-        width: 30,
-        height: 30
+        margin: '8px 8px 8px 12px',
+        width: 24,
+        height: 24
     },
     divider: {
         display: 'flex',
@@ -101,16 +91,17 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
     }
 }));
-const LoginForm = ({onSubmit, isLoading, error}) => {
+const LoginForm = ({onSubmit, onFacebookLogin, onFacebookLoginError, onGoogleLogin, isLoading, error}) => {
 
     const classes = useStyles(makeStyles);
     // Credentials data
-    const [username, setUsername] = React.useState("");
+     // User session
+    const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-
+    
     // set username
     const onChangeUsername = (value, error) => {
-        setUsername(value);
+        setEmail(value);
     }
 
     // set password
@@ -124,7 +115,7 @@ const LoginForm = ({onSubmit, isLoading, error}) => {
 
     const onSubmitLogin = () => {
         if(checkData()) {
-            onSubmit(username, password)
+            onSubmit(email, password)
         }
     }
 
@@ -139,10 +130,10 @@ const LoginForm = ({onSubmit, isLoading, error}) => {
                     id="username" 
                     disabled={isLoading}
                     type="text"
-                    value={username}
+                    value={email}
                     inputName="username" 
                     title="Username" 
-                    placeholder="Your username.."
+                    placeholder="Your email.."
                     onChange={ onChangeUsername } />
                 <TextInput 
                     testid='login-pass'
@@ -170,14 +161,25 @@ const LoginForm = ({onSubmit, isLoading, error}) => {
                         <div style={{width: '40%'}}><Divider/></div>
                     </div>
                     <div className={classes.socialButtonsWrapper}>
-                    <Button className={classes.btnGoogle} href={FACEBOOK_AUTH_URL}>
+                   
+                    <GoogleButton>
                         <img className={classes.logoImage} src={googleLogo} alt="Google" /> 
-                        Log in with Google
-                    </Button>
-                    <Button className={classes.btnFacebook} href={FACEBOOK_AUTH_URL}>
-                        <img className={classes.logoImage} src={facebookLogo} alt="Facebook" /> 
-                        Log in with Facebook
-                    </Button>
+                        <div className={classes.fbText}>Login with Google</div>
+                    </GoogleButton>
+                
+                    <FacebookProvider appId="3310247495689135">
+                        <LoginButton
+                        className={classes.hidden}
+                        scope="email"
+                        onCompleted={onFacebookLogin}
+                        onError={onFacebookLoginError}
+                        >
+                          <FacebookButton>
+                          <img className={classes.logoImage} src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/sKRYKszttLX.png" alt=""/>
+                          <div className={classes.fbText}>Login with Facebook</div>
+                          </FacebookButton>
+                        </LoginButton>
+                    </FacebookProvider>
                     </div>
                 </div>
             </FormLayout>

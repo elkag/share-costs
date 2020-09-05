@@ -1,6 +1,7 @@
 export const API_PREFIX = 'http://localhost:8080';
 export const LOGIN_SERVICE_URL =  API_PREFIX + '/users/login';
 export const REGISTER_SERVICE_URL = API_PREFIX + '/users/register';
+export const VALIDATE_SERVICE_URL = API_PREFIX + '/auth/validate';
 export const LOGOUT_SERVICE_URL = API_PREFIX + '/users/logout';
 export const USER_INFO_SERVICE_URL = API_PREFIX + '/auth/current';
 export const GET_GROUPS_URL = API_PREFIX + '/groups/get-all';
@@ -11,6 +12,7 @@ export const FIND_USER_URL = API_PREFIX + '/groups/find-new-members';
 export const ADD_USER_URL = API_PREFIX + '/groups/add-user';
 export const REMOVE_PENDING_USER_URL = API_PREFIX + '/groups/remove-user';
 export const JOIN_GROUP_URL = API_PREFIX + '/groups/join';
+export const FACEBOOK_LOGIN_URL = API_PREFIX + '/users/facebook-login';
 
 
 // OAUTH2

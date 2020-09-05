@@ -6,7 +6,7 @@ export const UserContext = createContext();
 export const UserSessionProvider = (props) => {
 
     const [session, setSession] = useState({
-        user: getSessionCookie("session").user,
+        user: getSessionCookie("session"),
     });
     
     return(

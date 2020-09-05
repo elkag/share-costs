@@ -1,7 +1,6 @@
 import React from 'react';
 // config
-import { setSessionCookie } from '../../config/session';
-import { HOME_PAGE } from '../../config/routes';
+import { ABOUT_PAGE } from '../../config/routes';
 // context
 import { UserContext } from '../../contexts/userContext';
 // API
@@ -11,6 +10,8 @@ import LoginForm from '../../components/Forms/LoginForm/LoginForm';
 import { makeStyles } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 import { bgColor } from '../../styles/colors';
+import { validateApi } from '../../api/services/validateTokenApi';
+import { oauthLoginApi } from '../../api/services/oauthLoginApi';
 
 const useStyles = makeStyles(theme => ({
   pageWrapper: {
@@ -41,25 +42,60 @@ const LoginPage = (props) => {
     // Sends requested data to BE
     // Log user if success
     // Saves user's session in a cookie and context
-    const logIn = async (username, password) => {
+    const logIn = async (email, password) => {
         setLoading(true);
         setError(false);
         
-        const response = await loginApi.logIn(username, password);
+        const response = await loginApi.logIn(email, password);
         
         if(response.error) {
-            setError(response.errorMessage)
+          setError(response.errorMessage)
         } else {
-          setSession( {user: response.user} );
-          setSessionCookie(response);
-          props.history.push(HOME_PAGE);
+          validate();
         }
-        setLoading(false);
       }
+
+    const onFacebookLogin = async(data) => {
+
+      setLoading(true);
+      setError(false);
+      const token = data.tokenDetail.accessToken;
+      const response = await oauthLoginApi.logIn(token);
+      if(response.error) {
+          setError(response.errorMessage)
+      } else {
+          validate();
+      }
+    }
+     
+    const handleError = (error) => {
+        setError({ error });
+    }
+
+    const onGoogleLogin = async(token) => {
+      //todo Create login via Google
+    }
+
+    const validate = async() => {
+      const validateResponse = await validateApi.validate();
+      setLoading(false);
+      if(validateResponse.error){
+        setError(validateResponse.errorMessage)
+      } else{
+        setSession( {user: validateResponse} );
+        props.history.push(ABOUT_PAGE);
+      }
+    }
 
     return (
       <div className={classes.pageWrapper}>
-        <LoginForm onSubmit={logIn} isLoading={loading} error={error}/>
+        <LoginForm 
+          onSubmit={logIn} 
+          onFacebookLogin={onFacebookLogin} 
+          onFacebookLoginError={handleError}
+          onGoogleLogin={onGoogleLogin} 
+          isLoading={loading} 
+          error={error}/>
       </div>
     )
 }

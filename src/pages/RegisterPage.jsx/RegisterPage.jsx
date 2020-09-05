@@ -1,6 +1,6 @@
 import React from 'react';
 // Configuration
-import { HOME_PAGE } from '../../config/routes';
+import { HOME_PAGE, ABOUT_PAGE } from '../../config/routes';
 import { setSessionCookie, deleteSessionCookie } from '../../config/session';
 import { UserContext } from '../../contexts/userContext';
 
@@ -12,6 +12,7 @@ import { loginApi } from '../../api/services/loginApi';
 import RegisterForm from '../../components/Forms/RegisterForm/RegisterForm';
 import { makeStyles } from '@material-ui/core';
 import { bgColor } from '../../styles/colors';
+import { validateApi } from '../../api/services/validateTokenApi';
 
 const useStyles = makeStyles(theme => ({
     pageWrapper: {
@@ -50,31 +51,39 @@ const RegisterPage = (props) => {
      * Sends requested data to BE
      */
     const onSubmit = async (
-        email,
-        firstName,
-        lastName,
-        password,
-        username
+        email, 
+        password, 
+        firstName, 
+        lastName, 
+        repeatPassword
     ) => {
         setLoading(true);
         const response = await registerApi.register(
             {
-                email,
-                firstName,
-                lastName,
-                password,
-                username
+                email, 
+                password, 
+                firstName, 
+                lastName, 
+                repeatPassword
             }
         );
-
-        setLoading(false);
         if(response.error) {
-            setError(response.message)
+            setError(response.errorMessage)
         } else {
-            deleteSessionCookie("session")
-            await logIn(username, password)
+            validateToken();
         }
     };
+
+    const validateToken = async() => {
+        const validateResponse = await validateApi.validate();
+        setLoading(false);
+        if(validateResponse.error){
+          setError(validateResponse.errorMessage)
+        } else{
+          setSession( {user: validateResponse} );
+          props.history.push(ABOUT_PAGE);
+        }
+      }
 
     return (
         <div className={classes.pageWrapper} >

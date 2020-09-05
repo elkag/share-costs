@@ -18,13 +18,11 @@ import { HOME_PAGE,
         MY_GROUPS_PAGE, 
         CREATE_GROUP_PAGE, 
         VIEW_GROUP_PAGE, 
-        ABOUT_PAGE,
-        OAUTH2_REDIRECT_PAGE} from '../../config/routes';
+        ABOUT_PAGE} from '../../config/routes';
 
 // Styles
 import styles from './navigation.module.css';
 import { UserSessionProvider } from '../../contexts/userContext';
-import OAuth2RedirectHandler from '../oauth2/OAuth2RedirectHandler';
 
 
 function Navigation() {
@@ -36,7 +34,6 @@ function Navigation() {
           <Header/>
             <div className={styles.container}>
               <Switch>
-                  <Route path={OAUTH2_REDIRECT_PAGE} component={OAuth2RedirectHandler} />
                   <Route path={HOME_PAGE} exact component={HomePage}/>
                   <Route path={ABOUT_PAGE} exact component={AboutPage} />
                   <Route path={LOGIN_PAGE} exact component={LoginPage} /> 
