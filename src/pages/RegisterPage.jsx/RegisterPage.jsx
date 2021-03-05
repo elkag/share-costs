@@ -36,17 +36,6 @@ const RegisterPage = (props) => {
     // if there is some error from the server side
     const [error, setError] = React.useState( true );
 
-    const logIn = async (loginUsername, loginPassword) => {
-        const sessionDetails = await loginApi.logIn(loginUsername, loginPassword);
-        if(sessionDetails.error) {
-            setError(sessionDetails.message)
-        } else {
-            setSession( {user: sessionDetails.user} );
-            setSessionCookie(sessionDetails);
-            props.history.push(HOME_PAGE);
-        }
-      }
-
     /**
      * Sends requested data to BE
      */
@@ -68,7 +57,8 @@ const RegisterPage = (props) => {
             }
         );
         if(response.error) {
-            setError(response.errorMessage)
+            setError(response.errorMessage);
+            setLoading(true);
         } else {
             validateToken();
         }

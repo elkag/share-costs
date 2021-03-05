@@ -49,7 +49,8 @@ const LoginPage = (props) => {
         const response = await loginApi.logIn(email, password);
         
         if(response.error) {
-          setError(response.errorMessage)
+          setError(response.message);
+          setLoading(false);
         } else {
           validate();
         }

@@ -8,7 +8,7 @@ export const findUserApi = {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
-                        'Authorization': 'Bearer ' + getSessionCookie().jwtToken
+                        'Authorization': 'Bearer ' + getSessionCookie()
                     },
                     body: `value=${userId}&groupId=${groupId}`
                 }

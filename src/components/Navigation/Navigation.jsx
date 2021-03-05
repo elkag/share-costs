@@ -38,8 +38,8 @@ function Navigation() {
                   <Route path={ABOUT_PAGE} exact component={AboutPage} />
                   <Route path={LOGIN_PAGE} exact component={LoginPage} /> 
                   <Route path={REGISTER_PAGE} exact component={RegisterPage} />
-                  <Route path={MY_GROUPS_PAGE} exact component={MyGroupsPage} />
                   <Route path={CREATE_GROUP_PAGE} exact component={CreateGroupPage} />
+                  <Route path={MY_GROUPS_PAGE} exact component={MyGroupsPage} />
                   <Route path={VIEW_GROUP_PAGE.concat(":groupId")} exact component={GroupPage} />
                  
               </Switch>

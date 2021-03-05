@@ -1,5 +1,6 @@
 import { REGISTER_SERVICE_URL } from "./config/config";
 import { setSessionCookie } from "../../config/session";
+import { ApiErrorHandler } from "./utils/apiErrorHandler";
 
 export const registerApi = {
     register: async (
@@ -11,7 +12,7 @@ export const registerApi = {
             repeatPassword
         }
     ) => {
-            return fetch(REGISTER_SERVICE_URL,
+            const response = await fetch(REGISTER_SERVICE_URL,
                 {
                     method: 'POST',
                     headers: {
@@ -26,25 +27,15 @@ export const registerApi = {
                         repeatPassword
                     })
                 }
-            ).then( response => {
-                if(response.ok) {
-                    const jwt = response.headers.get("x-token");
-                    setSessionCookie(jwt)
-                    return response;
-                } 
-                throw response;
-            }
-        ).catch( error => {
-            if (error instanceof Error) {
-                return { error: true, message: error.message }
-            }
-            return error.json().then((responseJson) => {
-                return responseJson;
-            }
-        )
+            );
             
-    }).then(response => {
-        return response;
-    })
-  }
+            if(response.ok) {
+                const jwt = response.headers.get("x-token");
+                setSessionCookie(jwt);
+                return {error: false};
+            } 
+    
+            const error = await ApiErrorHandler.handle(response);
+            return error;
+        }
 }

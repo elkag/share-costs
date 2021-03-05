@@ -16,5 +16,5 @@ export const getSessionCookie = () => {
 };
 
 export const deleteSessionCookie = () => {
-  Cookies.remove("session");
+  Cookies.remove("x-token");
 }

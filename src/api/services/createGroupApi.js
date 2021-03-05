@@ -1,5 +1,6 @@
 import { CREATE_GROUP_API } from "./config/config";
 import { getSessionCookie } from "../../config/session";
+import { ApiErrorHandler } from "./utils/apiErrorHandler";
 
 /**
  * {
@@ -16,41 +17,26 @@ export const createGroupApi = {
                     userIds
                 }
             ) => {
-            return fetch(CREATE_GROUP_API,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + getSessionCookie()
-                    },
-                    body: JSON.stringify({
-                        name,
-                        description,
-                        userIds,
-                    })
-                }
-            )
-            .then( response => {
-                    if(response.ok) {
-                        return response.json();
-                    } 
-                    throw response;
-                }
-            )
-            .then( json => {
-                return json;
-            }
-        ).catch( error => {
-                console.log("Error occurred");
-                if (error instanceof Error) {
-                    return { error: true, message: error.message }
-                }
-                return error.json().then((responseJson) => {
-                    return responseJson;
-                }
-            )
-        }).then(response => {
-            return response;
-        }) 
-  }
+            const response = await fetch(CREATE_GROUP_API,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + getSessionCookie()
+                },
+                body: JSON.stringify({
+                    name,
+                    description,
+                    userIds,
+                })
+            } );
+        
+        if(response.ok) {
+            const json = await response.json();
+            return json;
+        } 
+            
+        const error = await ApiErrorHandler.handle(response);
+        return error;   
+    }
 }

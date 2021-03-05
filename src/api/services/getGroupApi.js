@@ -1,39 +1,25 @@
 import { GET_GROUP_URL } from "./config/config";
 import { getSessionCookie } from "../../config/session";
+import { ApiErrorHandler } from "./utils/apiErrorHandler";
 
 export const getGroupApi = {
     getGroup: async (groupId) => {
-            return fetch(GET_GROUP_URL,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'Authorization': 'Bearer ' + getSessionCookie()
-                    },
-                    body: `groupId=${groupId}`
-                }
-            )
-            .then( response => {
-                    if(response.ok) {
-                        return response.json();
-                    } 
-                    throw response;
-                }
-            )
-            .then( json => {
+            const response = await fetch(GET_GROUP_URL,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': 'Bearer ' + getSessionCookie()
+                },
+                body: `groupId=${groupId}`
+            });
+
+            if(response.ok) {
+                const json = await response.json();
                 return json;
-            }
-        ).catch( error => {
-                console.log("Error occurred");
-                if (error instanceof Error) {
-                    return { error: true, message: error.message }
-                }
-                return error.json().then((responseJson) => {
-                    return responseJson;
-                }
-            )
-        }).then(response => {
-            return response;
-        }) 
-  }
+            } 
+                
+            const error = await ApiErrorHandler.handle(response);
+            return error;
+    }
 }

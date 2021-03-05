@@ -1,9 +1,8 @@
 import React, { useEffect, useCallback } from 'react';
 import { UserContext } from '../../contexts/userContext';
-import { HOME_PAGE } from '../../config/routes';
+import { HOME_PAGE, LOGIN_PAGE } from '../../config/routes';
 import { Redirect, useParams } from 'react-router-dom';
 import { getGroupApi } from '../../api/services/getGroupApi';
-import { SERVER_ERROR } from '../../config/systemMessages';
 import GroupView from '../../components/GroupView/GroupView';
 import Loader from '../../components/common/Loader';
 import { joinGroupApi } from '../../api/services/joinGroupApi';
@@ -22,9 +21,11 @@ const GroupPage = () => {
   const params = useParams();
 
   const getGroup = useCallback(async () => {
+    setLoading(true);
     const response = await getGroupApi.getGroup(params.groupId);
+    setLoading(false)
     if(response.error){
-      setError(SERVER_ERROR);
+      setError(response.message);
     } else {
       setGroup(response);
     }
@@ -44,9 +45,8 @@ const GroupPage = () => {
       const response = await addUserToGroupApi.addUser(group.id, userId);
       setLoading(false);
       if(response.error){
-          setError(SERVER_ERROR);
+          setError(response.message);
       } else {
-          console.log(response)
           setGroup(response);
       }
   }
@@ -56,7 +56,7 @@ const GroupPage = () => {
       const response = await removePendingUserApi.removeUser(group.id, user.id);
       setLoading(false);
       if(response.error){
-          setError(SERVER_ERROR);
+        setError(response.message);
       } else {
         setGroup(response);
       }
@@ -68,7 +68,7 @@ const GroupPage = () => {
       const response = await joinGroupApi.join(group.id);
       setLoading(false);
       if(response.error){
-          setError(SERVER_ERROR);
+        setError(response.message);
       } else {
         setGroup(response);
       }
@@ -76,21 +76,21 @@ const GroupPage = () => {
   }
 
   const render = () => {
-        if(!session || !session.user) {
-          return <Redirect to={HOME_PAGE} />
-        }
+    if(session && session.loading) {
+      return null;
+    }
 
-        if(!loading) {
-          return <GroupContext.Provider value={{group, getGroup}}>
+    if(session && session.user) {
+        return <GroupContext.Provider value={{group, getGroup}}>
                   <Loader loading={loading} error={error} />
                   <GroupView 
                       joinGroup={joinGroup} 
                       addToGroup={addToGroup} 
                       removePendingUser={removePendingUser} />
               </GroupContext.Provider>
-        }
+    }
 
-        return null
+    return <Redirect to={LOGIN_PAGE} />
   }
   return (
     render()
