@@ -62,11 +62,11 @@ const Header = () => {
     const history = useHistory();
 
     const classes = useStyles();
-    const [user, setUser] = React.useContext(UserContext);
+    const [session, setSession] = React.useContext(UserContext);
 
     const logOut = () => {
-        deleteSessionCookie("session");
-        setUser({});
+        deleteSessionCookie();
+        setSession({user: null});
     }
 
     const onCreateNewGroup = () => {
@@ -104,9 +104,9 @@ const Header = () => {
             position: 'bottom'
         },
         {
-            key: user.user && <div className={classes.userInfo}>
-                    <div>{user.user.firstName}&nbsp;{user.user.lastName}</div>
-                    <div>{user.user.email}</div>
+            key: session.user && <div className={classes.userInfo}>
+                    <div>{session.user.firstName}&nbsp;{session.user.lastName}</div>
+                    <div>{session.user.email}</div>
                 </div>,
             position: 'user-info'
         }
@@ -115,7 +115,7 @@ const Header = () => {
     return (
         <div className={classes.header}>
                 {
-                   user && user.user && user.user !== {} ? ( 
+                   session && session.user ? ( 
                     <Fragment> 
                         <div className={classes.menuIconsWrapper}>
                             <LeftMenu menuList={menuList} />

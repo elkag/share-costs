@@ -1,23 +1,24 @@
 import React from 'react';
 import { Button, makeStyles } from '@material-ui/core';
-import { deepOrange } from '@material-ui/core/colors/';
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {
         display: 'flex',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
     },
     submitButton: {
       color: "white",
-      backgroundColor: deepOrange[400],
+      textTransform: 'none',
+      backgroundColor: '#4267b2',
       minWidth: 200,
+      padding: 0,
       '&:hover': {
-        backgroundColor: deepOrange[600],
+        backgroundColor: '#5776b6',
       },
     },
   }));
 
-const StyledButton = (props) => {
+const FacebookButton = (props) => {
 
     const classes = useStyles(makeStyles);
     
@@ -37,4 +38,4 @@ const StyledButton = (props) => {
 
 }
 
-export default StyledButton
+export default FacebookButton

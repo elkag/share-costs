@@ -1,20 +1,20 @@
 import Cookies from "js-cookie";
 
 export const setSessionCookie = (session) => {
-  Cookies.remove("session");
-  Cookies.set("session", session, { expires: 1 });
+  Cookies.remove("x-token");
+  Cookies.set("x-token", session, { expires: 1 });
 };
 
 export const getSessionCookie = () => {
-  const sessionCookie = Cookies.get("session");
+  const sessionCookie = Cookies.get("x-token");
 
   if (sessionCookie === undefined) {
     return {};
   } else {
-    return JSON.parse(sessionCookie);
+    return sessionCookie;
   }
 };
 
 export const deleteSessionCookie = () => {
-  Cookies.remove("session");
+  Cookies.remove("x-token");
 }

@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-         marginLeft: '20px',
+        marginLeft: '20px',
     },
     avatar: {
         color: theme.palette.getContrastText(deepOrange[500]),
@@ -38,8 +38,7 @@ const useStyles = makeStyles(theme => ({
     label: {
         marginTop: '5px',
         color: "white",
-        fontSize: '9pt',
-        fontFamily: 'verdana',
+        fontSize: '10pt'
     },
 }
 ));

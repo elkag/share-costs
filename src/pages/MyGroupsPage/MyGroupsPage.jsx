@@ -2,8 +2,7 @@ import React, { useEffect, Fragment, useCallback } from 'react';
 import { UserContext } from '../../contexts/userContext';
 import { Redirect } from 'react-router-dom';
 import { getGroupsApi } from '../../api/services/getGroupsApi';
-import { SERVER_ERROR } from '../../config/systemMessages';
-import { HOME_PAGE } from '../../config/routes';
+import { HOME_PAGE, LOGIN_PAGE } from '../../config/routes';
 import Loader from '../../components/common/Loader';
 import GroupList from '../../components/GroupList/GroupList'
 
@@ -18,12 +17,10 @@ const MyGroupsPage = () => {
     const response = await getGroupsApi.getGroups();
     setLoading(false);
     if(response.error){
-      setError(SERVER_ERROR);
+      setError(response.message);
     } else {
       setGroups(response);
     }
-    
-    setLoading(false);
   }, [ setGroups])
 
   useEffect( () => {
@@ -31,20 +28,23 @@ const MyGroupsPage = () => {
   },[getGroups])
 
   const renderElements = () => {
+    if(session && session.loading) {
+      return null;
+    }
 
+    if(session && session.user) {
+        return <Fragment>
+                <Loader loading={loading} error={error} />
+                <GroupList groups={groups} />
+              </Fragment>
+    } 
     return (
-      <Fragment>
-        <Loader loading={loading} error={error} />
-        <GroupList groups={groups} />
-      </Fragment>
+      <Redirect to={LOGIN_PAGE} />
     )
    
   }
   
-  return (
-    (!session || !session.user) ? <Redirect to={HOME_PAGE} /> :
-      renderElements()
-    );
+  return ( renderElements() )
   }
 
 

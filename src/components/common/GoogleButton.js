@@ -1,23 +1,27 @@
 import React from 'react';
 import { Button, makeStyles } from '@material-ui/core';
-import { deepOrange } from '@material-ui/core/colors/';
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {
         display: 'flex',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
+        paddingBottom:10
     },
     submitButton: {
-      color: "white",
-      backgroundColor: deepOrange[400],
+      color: "grey",
+      textTransform: 'none',
+      backgroundColor: 'white',
+      border: 1,
+      borderColor: 'grey',
+      padding:0,
       minWidth: 200,
       '&:hover': {
-        backgroundColor: deepOrange[600],
+        backgroundColor: '#f8f8f8',
       },
     },
   }));
 
-const StyledButton = (props) => {
+const GoogleButton = (props) => {
 
     const classes = useStyles(makeStyles);
     
@@ -37,4 +41,4 @@ const StyledButton = (props) => {
 
 }
 
-export default StyledButton
+export default GoogleButton

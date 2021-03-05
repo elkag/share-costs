@@ -1,38 +1,29 @@
 import { LOGIN_SERVICE_URL } from './config/config';
+import { setSessionCookie } from '../../config/session';
+import { ApiErrorHandler } from './utils/apiErrorHandler';
 
 export const loginApi = {
-    logIn: async (username, password) => {
+    logIn: async (email, password) => {
 
-        return fetch(LOGIN_SERVICE_URL,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                // body data type must match "Content-Type" header
-                body: JSON.stringify({username, password})
-            }
-            ).then( response => {
-                    if(response.ok) {
-                        return response.json();
-                    } 
-                    throw response;
-                }
-            ).then( json => {
-                    return json;
-                }
-            ).catch( error => {
-                console.log("Error occurred");
-                if (error instanceof Error) {
-                    // {message: "..."}
-                    return { error: true, message: error.message }
-                }
-                
-                console.log(error)
-                return { error: true, message: "Wrong username or password" }
-                
-        }).then(response => {
+        const response = await fetch(LOGIN_SERVICE_URL,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:3000'
+            },
+            // body data type must match "Content-Type" header
+            body: JSON.stringify({email, password})
+        });
+        
+        
+        if(response.ok) {
+            const jwt = response.headers.get("x-token");
+            setSessionCookie(jwt)
             return response;
-        })
+        } 
+
+        const error = await ApiErrorHandler.handle(response);
+        return error;   
   }
 }

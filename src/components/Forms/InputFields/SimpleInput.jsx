@@ -7,10 +7,14 @@ const useStyles = makeStyles((theme) => ({
     wrapper: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'left',
-        alignContent: 'left',
+        justifyContent: 'stretch',
         alignItems: 'left',
-        width: '100%',
+        minWidth: '240px'
+    },
+    label: {
+        paddingBottom: 10,
+        fontSize: 12,
+        fontWeight: "bold"
     },
     inputWrapper: {
         color: '#234465',
@@ -27,11 +31,10 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
     },
     error: {
-        display: 'flex',
-        justifyContent: 'flex-end',
-        height: '29px',
-        fontSize: 'small',
-        color: 'red'
+        textAlign: 'left',
+        color: 'red',
+        fontSize: 12,
+        height: 20
     }
 }));
 
@@ -59,9 +62,6 @@ const useStyles = makeStyles((theme) => ({
                 <div className={classes.label}>
                     <label htmlFor={id}>{title}:</label>
                 </div>
-                <div className={classes.error}>
-                    <label htmlFor={id}>{error}</label>
-                </div>
            </div>
            <div className={classes.inputWrapper}>
                <input className={classes.input} type={type} 
@@ -73,6 +73,9 @@ const useStyles = makeStyles((theme) => ({
                        disabled={disabled}
                        data-testid={testid} />
            </div>
+           <div className={classes.error}>
+                <label htmlFor={id}>{error}</label>
+            </div>
            
        </div> )
 }

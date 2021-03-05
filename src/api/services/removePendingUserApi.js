@@ -8,7 +8,7 @@ export const removePendingUserApi = {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + getSessionCookie().jwtToken
+                        'Authorization': 'Bearer ' + getSessionCookie()
                     },
                     body: JSON.stringify({userId, groupId})
                 }
